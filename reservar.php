@@ -46,6 +46,10 @@ if ($row = $result->fetch_assoc()) {
     $user_email = $row['email'];
 }
 
+$stmt = $conn->prepare("INSERT INTO reservas (user_id, apartamento_id, checkin, checkout, noches, total, estado, created_at) VALUES (?, ?, ?, ?, ?, ?, 'pendiente', NOW())");
+$stmt->bind_param("iissi", $_SESSION['user_id'], $apartamento_id, $checkin, $checkout, $noches, $total);
+$stmt->execute();
+
 $asunto = "Confirmación de tu reserva en ApBarcelona";
 $mensaje = "Hola $user_name,\n\n";
 $mensaje .= "Gracias por tu reserva en ApBarcelona.\n\n";

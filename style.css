@@ -49,7 +49,10 @@ ul { list-style: none; }
   color: var(--negro); letter-spacing: -0.5px;
 }
 .logo span { color: var(--rojo); }
-.nav-links { display: flex; gap: 32px; }
+.nav-links { display: flex; gap: 32px; margin-right: auto; }
+.nav-buttons {
+  display: flex; gap: 12px; margin-left: auto;
+}
 .nav-links a {
   font-size: 0.92rem; font-weight: 500; color: var(--gris-texto);
   transition: var(--transicion); position: relative;
@@ -68,6 +71,11 @@ ul { list-style: none; }
   transition: var(--transicion);
 }
 .btn-nav:hover { background: var(--rojo-oscuro); transform: translateY(-1px); box-shadow: var(--sombra); }
+.btn-nav.btn-reg {
+  background: transparent; color: var(--rojo);
+  border: 2px solid var(--rojo);
+}
+.btn-nav.btn-reg:hover { background: var(--rojo); color: var(--blanco); }
 
 /* ===== HERO ===== */
 .hero {

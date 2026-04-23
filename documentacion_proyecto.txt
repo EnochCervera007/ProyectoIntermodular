@@ -1,0 +1,190 @@
+================================================================================
+                    DOCUMENTACIÓN DEL PROYECTO WEB
+                      ApBarcelona - Apartamentos Turísticos
+================================================================================
+
+Proyecto: Web de apartamentos turísticos en Barcelona
+Servidor: XAMPP (Apache + MySQL)
+Ubicación: C:\xampp\htdocs\ProyectoIntermodular\
+
+================================================================================
+                                DÍA 1
+================================================================================
+
+OBJETIVO: Crear la página web principal
+
+ARCHIVOS CREADOS:
+- Index.html (posteriormente renombrado a index.php)
+- style.css
+- script.js
+
+CONTENIDO DE LA PÁGINA:
+- Navbar con logo y navegación
+- Hero section con estadísticas
+- Sección de barrios destacados
+- Sección de apartamentos destacados (con filtros: Todos, Playa, Centro, Lujo)
+- Sección "¿Por qué elegirnos?"
+- Formulario para publicar apartamento (sección guardar)
+- Footer con información de contacto
+
+TECNOLOGÍAS USADAS:
+- HTML5 semántico
+- CSS3 con variables, flexbox y grid
+- JavaScript para filtros de apartamentos
+- Google Fonts (Playfair Display, DM Sans)
+
+================================================================================
+                                DÍA 2
+================================================================================
+
+OBJETIVO: Crear sistema de login y registro con PHP y MySQL
+
+TRABAJO REALIZADO:
+1. Creación de la base de datos 'apbarcelona' en MySQL
+2. Creación de las tablas:
+   - usuarios (id, nombre, email, password, telefono, created_at, updated_at)
+   - apartamentos (id, user_id, nombre, email, telefono, barrio, habitaciones, precio, descripcion, direccion, estado, created_at)
+
+ARCHIVOS CREADOS:
+- conexion.php - Conexión a la base de datos MySQL
+- registro.php - Página de registro de usuarios
+- login.php - Página de inicio de sesión
+- guardar_apartamento.php - Formulario para publicar apartamentos
+- logout.php - Cerrar sesión
+- database.sql - Script SQL de la base de datos
+
+FUNCIONALIDADES:
+- Registro de nuevos usuarios con validación
+- Login con verificación de contraseña (password_hash)
+- Sesiones PHP para gestionar usuarios logueados
+- Guardado de apartamentos en la base de datos
+- Redirección automáica si no está logueado
+
+================================================================================
+                                DÍA 3
+================================================================================
+
+OBJETIVO: Migrar proyecto a XAMPP y mejorar navegación
+
+TRABAJO REALIZADO:
+1. Copia de todos los archivos a C:\xampp\htdocs\ProyectoIntermodular\
+2. Renombrar Index.html a index.php
+3. Actualizar index.php para mostrar botones de login/registro según sesión
+
+MEJORAS EN index.php:
+- Botones dinámicos en el navbar:
+  * Si no está logueado: "Iniciar Sesión" y "Registrarse"
+  * Si está logueado: "Publicar" y "Cerrar (nombre)"
+- Botón "Publica el tuyo" en el hero (enlace a login.php)
+
+ARREGLOS:
+- Corregido error en guardar_apartamento.php con bind_param()
+
+================================================================================
+                                DÍA 4
+================================================================================
+
+OBJETIVO: Mejorar diseño de guardar_apartamento.php
+
+MEJORAS REALIZADAS:
+- Diseño más limpio y moderno
+- Botón "Volver al inicio" para navegar al index
+- Barra de usuario con información de sesión
+- Estilos CSS mejorados (colores oscura, bordes, tipografía)
+- Formulario estructurado con grid
+
+================================================================================
+                              ESTRUCTURA DE ARCHIVOS
+================================================================================
+
+C:\xampp\htdocs\ProyectoIntermodular\
+├── index.php              # Página principal
+├── login.php              # Inicio de sesión
+├── registro.php           # Registro de usuarios
+├── guardar_apartamento.php # Formulario publicar apartamento
+├── logout.php             # Cerrar sesión
+├── conexion.php           # Conexión MySQL
+├── database.sql           # Script base de datos
+├── style.css              # Estilos principales
+└── script.js              # JavaScript (filtros)
+
+================================================================================
+                              BASE DE DATOS
+================================================================================
+
+Nombre: apbarcelona
+
+Tabla: usuarios
+- id (INT, PRIMARY KEY, AUTO_INCREMENT)
+- nombre (VARCHAR 100)
+- email (VARCHAR 150, UNIQUE)
+- password (VARCHAR 255)
+- telefono (VARCHAR 20)
+- created_at (DATETIME)
+- updated_at (DATETIME)
+
+Tabla: apartamentos
+- id (INT, PRIMARY KEY, AUTO_INCREMENT)
+- user_id (INT, FOREIGN KEY -> usuarios.id)
+- nombre (VARCHAR 100)
+- email (VARCHAR 150)
+- telefono (VARCHAR 20)
+- barrio (VARCHAR 50)
+- habitaciones (VARCHAR 10)
+- precio (DECIMAL 10,2)
+- descripcion (TEXT)
+- direccion (VARCHAR 255)
+- estado (ENUM: pendiente, aprobado, rechazado)
+- created_at (DATETIME)
+
+================================================================================
+                               RUTAS DE ACCESO
+================================================================================
+
+- Página principal: http://localhost/ProyectoIntermodular/
+- Login: http://localhost/ProyectoIntermodular/login.php
+- Registro: http://localhost/ProyectoIntermodular/registro.php
+- Publicar apartamento: http://localhost/ProyectoIntermodular/guardar_apartamento.php
+- phpMyAdmin: http://localhost/phpmyadmin/
+
+================================================================================
+                              FUNCIONALIDADES
+================================================================================
+
+1. VISUALIZACIÓN:
+   - Apartamentos con filtros (Todos, Playa, Centro, Lujo)
+   - Barrios destacados con imágenes
+   - Información de contacto en footer
+
+2. AUTENTICACIÓN:
+   - Registro de usuarios con validación
+   - Login/logout con sesiones
+   - Contraseñas hash con password_hash()
+
+3. PUBLICACIÓN:
+   - Formulario para publicar apartamentos
+   - Guardado en base de datos
+   - Requiere sesión iniciada
+
+4. BASE DE DATOS:
+   - Registro de usuarios
+   - Almacenamiento de apartamentos
+   - Estados: pendiente, aprobado, rechazado
+
+================================================================================
+                               NOTAS TÉCNICAS
+================================================================================
+
+- PHP versión: 8.x (incluido en XAMPP)
+- MySQL versión: included en XAMPP
+- Servidor: localhost (XAMPP)
+- Puerto: 80 (Apache), 3306 (MySQL)
+- Credenciales MySQL: root / (sin contraseña)
+
+================================================================================
+                                 FIN DEL DOCUMENTO
+================================================================================
+
+Documento generado el: 23 de Abril de 2026
+Proyecto: ApBarcelona - Apartamentos Turísticos
+Autor: [Desarrollado con asistencia]

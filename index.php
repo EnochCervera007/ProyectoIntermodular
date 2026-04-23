@@ -1,3 +1,8 @@
+<?php
+session_start();
+$logged_in = isset($_SESSION['user_id']);
+$user_name = $_SESSION['user_name'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,7 +23,17 @@
         <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
-      <a href="#guardar" class="btn-nav">Mis reservas</a>
+      <?php if ($logged_in): ?>
+        <div class="nav-buttons">
+          <a href="guardar_apartamento.php" class="btn-nav">Publicar</a>
+          <a href="logout.php" class="btn-nav">Cerrar (<?php echo htmlspecialchars($user_name); ?>)</a>
+        </div>
+      <?php else: ?>
+        <div class="nav-buttons">
+          <a href="login.php" class="btn-nav">Iniciar Sesión</a>
+          <a href="registro.php" class="btn-nav btn-reg">Registrarse</a>
+        </div>
+      <?php endif; ?>
     </div>
   </nav>
 
@@ -31,7 +46,7 @@
       <p class="hero-sub">Apartamentos turísticos de alta calidad en los mejores barrios de la ciudad condal. Vive Barcelona como un local.</p>
       <div class="hero-btns">
         <a href="#apartamentos" class="btn-primary">Ver apartamentos</a>
-        <a href="#guardar" class="btn-secondary">Publica el tuyo</a>
+        <a href="login.php" class="btn-secondary">Publica el tuyo</a>
       </div>
     </div>
     <div class="hero-stats">
@@ -355,7 +370,7 @@
         <div class="footer-col">
           <h4>Propietarios</h4>
           <ul>
-            <li><a href="#guardar">Publicar apartamento</a></li>
+            <li><a href="login.php">Publicar apartamento</a></li>
             <li><a href="#">Cómo funciona</a></li>
             <li><a href="#">Tarifas</a></li>
         

@@ -47,28 +47,10 @@ if ($row = $result->fetch_assoc()) {
 }
 
 $stmt = $conn->prepare("INSERT INTO reservas (user_id, apartamento_id, checkin, checkout, noches, total, estado, created_at) VALUES (?, ?, ?, ?, ?, ?, 'pendiente', NOW())");
-$stmt->bind_param("iissi", $_SESSION['user_id'], $apartamento_id, $checkin, $checkout, $noches, $total);
+$stmt->bind_param("iissis", $_SESSION['user_id'], $apartamento_id, $checkin, $checkout, $noches, $total);
 $stmt->execute();
 
-$asunto = "Confirmación de tu reserva en ApBarcelona";
-$mensaje = "Hola $user_name,\n\n";
-$mensaje .= "Gracias por tu reserva en ApBarcelona.\n\n";
-$mensaje .= "Detalles de tu reserva:\n";
-$mensaje .= "- Apartamento: " . $apt['titulo'] . "\n";
-$mensaje .= "- Ubicación: " . $apt['barrio'] . "\n";
-$mensaje .= "- Fecha de entrada: $checkin\n";
-$mensaje .= "- Fecha de salida: $checkout\n";
-$mensaje .= "- Número de noches: $noches\n";
-$mensaje .= "- Total: €$total\n\n";
-$mensaje .= "Te esperamos en Barcelona.\n\n";
-$mensaje .= "Saludos,\n";
-$mensaje .= "El equipo de ApBarcelona";
-
-$headers = "From: noreply@apbarcelona.com\r\n";
-$headers .= "Reply-To: noreply@apbarcelona.com\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-mail($user_email, $asunto, $mensaje, $headers);
+enviarEmail($user_email, $user_name, $apt['titulo'], $apt['barrio'], $checkin, $checkout, $noches, $total);
 ?>
 <!DOCTYPE html>
 <html lang="es">

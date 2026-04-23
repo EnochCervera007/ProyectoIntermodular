@@ -367,13 +367,13 @@ $user_name = $_SESSION['user_name'] ?? '';
             <li><a href="#">Gràcia</a></li>
           </ul>
         </div>
-        <div class="footer-col">
+<div class="footer-col">
           <h4>Propietarios</h4>
           <ul>
             <li><a href="login.php">Publicar apartamento</a></li>
-            <li><a href="#">Cómo funciona</a></li>
-            <li><a href="#">Tarifas</a></li>
-        
+            <li><a href="como_funciona.php">Cómo funciona</a></li>
+            <li><a href="tarifas.php">Tarifas</a></li>
+         
           </ul>
         </div>
         <div class="footer-col">

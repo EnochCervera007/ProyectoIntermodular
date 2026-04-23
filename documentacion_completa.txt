@@ -1,0 +1,289 @@
+================================================================================
+                    DOCUMENTACIÓN COMPLETA DEL PROYECTO WEB
+                           ApBarcelona
+              Apartamentos Turísticos en Barcelona
+================================================================================
+
+Proyecto: Web de apartamentos turísticos en Barcelona
+Tipo: Plataforma web completa con sistema de reservas
+Servidor: XAMPP (Apache + MySQL)
+Ubicación archivos: C:\xampp\htdocs\ProyectoIntermodular\
+Repositorio: https://github.com/EnochCervera007/ProyectoIntermodular
+
+================================================================================
+                             HISTORIAL DE TRABAJO
+================================================================================
+
+--------------------------------------- DÍA 1 ---------------------------------------
+OBJETIVO: Crear la página web principal (plantilla inicial)
+
+ARCHIVOS CREADOS:
+- Index.html (posteriormente renombrado a index.php)
+- style.css - Estilos principales
+- script.js - JavaScript para filtros
+
+CONTENIDO DE LA PÁGINA:
+- Navbar con logo y navegación
+- Hero section con estadísticas
+- Sección de barrios destacados
+- Sección de apartamentos destacados (con filtros)
+- Sección "¿Por qué elegirnos?"
+- Formulario para publicar apartamento
+- Footer con información de contacto
+
+TECNOLOGÍAS USADAS:
+- HTML5 semántico
+- CSS3 con variables, flexbox y grid
+- JavaScript para filtros de apartamentos
+- Google Fonts (Playfair Display, DM Sans)
+
+--------------------------------------- DÍA 2 ---------------------------------------
+OBJETIVO: Crear sistema de login y registro con PHP y MySQL
+
+TRABAJO REALIZADO:
+1. Creación de la base de datos 'apbarcelona' en MySQL
+2. Creación de las tablas: usuarios y apartamentos
+
+ARCHIVOS CREADOS:
+- conexion.php - Conexión a la base de datos
+- registro.php - Página de registro de usuarios
+- login.php - Página de inicio de sesión
+- guardar_apartamento.php - Formulario para publicar apartamentos
+- logout.php - Cerrar sesión
+- database.sql - Script SQL de la base de datos
+
+FUNCIONALIDADES:
+- Registro de nuevos usuarios con validación
+- Login con verificación de contraseña (password_hash)
+- Sesiones PHP para gestionar usuarios logueados
+- Guardado de apartamentos en la base de datos
+
+--------------------------------------- DÍA 3 ---------------------------------------
+OBJETIVO: Migrar proyecto a XAMPP y mejorar navegación
+
+TRABAJO REALIZADO:
+1. Copia de todos los archivos a XAMPP htdocs
+2. Renombrar Index.html a index.php
+3. Actualizar index.php para mostrar botones dinámicos
+
+MEJORAS EN index.php:
+- Botones dinámicos en el navbar según sesión
+- Botón "Publica el tuyo" en el hero
+
+--------------------------------------- DÍA 4 ---------------------------------------
+OBJETIVO: Mejorar diseño de guardar_apartamento.php
+
+MEJORAS REALIZADAS:
+- Diseño más limpio y moderno (tema oscuro)
+- Botón "Volver al inicio"
+- Barra de usuario con información de sesión
+- Formulario estructurado con grid
+
+--------------------------------------- DÍA 5 ---------------------------------------
+OBJETIVO: Redirección automática tras login/registro
+
+CAMBIOS REALIZADOS:
+- Login redirige automáticamente al index.php
+- Registro crea sesión y redirige al index.php
+- Si ya está logueado, redirige al index
+
+--------------------------------------- DÍA 6 ---------------------------------------
+OBJETIVO: Crear páginas informativas para propietarios
+
+ARCHIVOS CREADOS:
+- como_funciona.php - Guía paso a paso
+- tarifas.php - Planes Básico y Profesional
+
+ENLACES ACTUALIZADOS:
+- Footer con enlaces funcionales
+
+--------------------------------------- DÍA 7 ---------------------------------------
+OBJETIVO: Página de detalle de apartamento con reserva
+
+ARCHIVOS CREADOS:
+- apartamento.php - Página de detalle con:
+  * Galería de imágenes
+  * Información del apartamento
+  * Calendario para seleccionar fechas
+  * Botón "Reservar ahora"
+  * Cálculo automático de precio
+- reservar.php - Confirmación de reserva
+
+ACTUALIZACIONES EN index.php:
+- Botones "Ver más" enlazan a apartamento.php
+
+BASE DE DATOS:
+- Tabla reservas para guardar reservas
+
+--------------------------------------- DÍA 8 ---------------------------------------
+OBJETIVO: Crear página Mis Reservas
+
+ARCHIVOS CREADOS:
+- mis_reservas.php - Historial de reservas del usuario:
+  * Lista de apartamentos reservados
+  * Fechas de entrada y salida
+  * Estado de la reserva
+  * Total gastado
+
+ACTUALIZACIÓN EN index.php:
+- Añadido botón "Mis Reservas" en el menú
+
+--------------------------------------- DÍA 9 ---------------------------------------
+OBJETIVO: Eliminar footer y limpiar código
+
+CAMBIOS REALIZADOS:
+- Eliminado texto de descripción del footer
+- Eliminado enlaces social media
+- Centradas las 3 columnas del footer
+- Cambiado logo de "BarcelonaStay" a "Barcelona"
+
+--------------------------------------- DÍA 10 --------------------------------------
+OBJETIVO: Crear páginas legales
+
+ARCHIVOS CREADOS:
+- privacidad.php - Política de Privacidad
+- cookies.php - Política de Cookies
+- terminos.php - Términos y Condiciones
+
+ENLACES ACTUALIZADOS:
+- Footer con enlaces funcionales a las 3 páginas
+
+--------------------------------------- DÍA 11 --------------------------------------
+OBJETIVO: Cambiar imagen principal del hero
+
+CAMBIO REALIZADO:
+- Imagen actualizada a vista de Barcelona desde la playa
+
+================================================================================
+                          ESTRUCTURA DE ARCHIVOS
+================================================================================
+
+C:\xampp\htdocs\ProyectoIntermodular\
+├── index.php                  # Página principal
+├── login.php                 # Inicio de sesión
+├── registro.php              # Registro de usuarios
+├── guardar_apartamento.php  # Formulario publicar apartamento
+├── logout.php               # Cerrar sesión
+├── mis_reservas.php          # Historial de reservas
+├── apartamento.php          # Detalle de apartamento
+├── reservar.php             # Confirmación de reserva
+├── como_funciona.php         # Guía para propietarios
+├── tarifas.php              # Planes y precios
+├── privacidad.php           # Política de Privacidad
+├── cookies.php             # Política de Cookies
+├── terminos.php            # Términos y Condiciones
+├── conexion.php            # Conexión MySQL
+├── email_config.php         # Configuración de emails
+├── database.sql           # Script base de datos
+├── style.css             # Estilos principales
+└── script.js             # JavaScript (filtros)
+
+================================================================================
+                          BASE DE DATOS
+================================================================================
+
+Nombre: apbarcelona
+
+Tabla: usuarios
+- id (INT, PRIMARY KEY, AUTO_INCREMENT)
+- nombre (VARCHAR 100)
+- email (VARCHAR 150, UNIQUE)
+- password (VARCHAR 255)
+- telefono (VARCHAR 20)
+- created_at (DATETIME)
+- updated_at (DATETIME)
+
+Tabla: apartamentos
+- id (INT, PRIMARY KEY, AUTO_INCREMENT)
+- user_id (INT, FOREIGN KEY)
+- nombre (VARCHAR 100)
+- email (VARCHAR 150)
+- telefono (VARCHAR 20)
+- barrio (VARCHAR 50)
+- habitaciones (VARCHAR 10)
+- precio (DECIMAL 10,2)
+- descripcion (TEXT)
+- direccion (VARCHAR 255)
+- estado (ENUM: pendiente, aprobado, rechazado)
+- created_at (DATETIME)
+
+Tabla: reservas
+- id (INT, PRIMARY KEY, AUTO_INCREMENT)
+- user_id (INT, FOREIGN KEY)
+- apartamento_id (INT)
+- checkin (DATE)
+- checkout (DATE)
+- noches (INT)
+- total (DECIMAL 10,2)
+- estado (ENUM: pendiente, confirmada, cancelada)
+- created_at (DATETIME)
+
+================================================================================
+                         FUNCIONALIDADES
+================================================================================
+
+1. VISUALIZACIÓN DE APARTAMENTOS
+   - Apartamentos con filtros (Todos, Playa, Centro, Lujo)
+   - Barrios destacados con imágenes
+   - Página de detalle con galería
+
+2. AUTENTICACIÓN DE USUARIOS
+   - Registro con validación
+   - Login/logout con sesiones
+   - Contraseñas hash con password_hash()
+
+3. SISTEMA DE RESERVAS
+   - Calendario para elegir fechas
+   - Cálculo automático de precio total
+   - Guardado en base de datos
+   - Página Mis Reservas
+
+4. PÁGINAS INFORMATIVAS
+   - Cómo funciona (para propietarios)
+   - Tarifas (planes Básico y Profesional)
+   - Privacidad, Cookies, Términos
+
+5. CORREO ELECTRÓNICO
+   - Configuración para PHPMailer
+   - Confirmación de reserva por email
+
+================================================================================
+                         RUTAS DE ACCESO
+================================================================================
+
+- Página principal:      http://localhost/ProyectoIntermodular/
+- Login:             http://localhost/ProyectoIntermodular/login.php
+- Registro:         http://localhost/ProyectoIntermodular/registro.php
+- Publicar:          http://localhost/ProyectoIntermodular/guardar_apartamento.php
+- Mis Reservas:      http://localhost/ProyectoIntermodular/mis_reservas.php
+- Cómo funciona:    http://localhost/ProyectoIntermodular/como_funciona.php
+- Tarifas:           http://localhost/ProyectoIntermodular/tarifas.php
+- Privacidad:       http://localhost/ProyectoIntermodular/privacidad.php
+- Cookies:          http://localhost/ProyectoIntermodular/cookies.php
+- Términos:         http://localhost/ProyectoIntermodular/terminos.php
+- phpMyAdmin:       http://localhost/phpmyadmin/
+
+================================================================================
+                         CARACTERÍSTICAS DEL DISEÑO
+================================================================================
+
+- Tema oscuro con acentos dorados
+- Colores principales:
+  * Rojo: #C8102E
+  * Blanco: #FFFFFF
+  * Negro: #0A0A0A
+  * Dorado: #C9A55C
+- Tipografía:
+  * Playfair Display (títulos)
+  * DM Sans (texto)
+- Diseño responsive
+- Imágenes de alta calidad de Unsplash
+
+================================================================================
+                            FIN DEL DOCUMENTO
+================================================================================
+
+Documento generado el: 23 de Abril de 2026
+Proyecto: ApBarcelona - Apartamentos Turísticos
+Versión: 1.0
+Total de archivos: 17 archivos PHP/CSS/JS

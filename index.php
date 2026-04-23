@@ -26,7 +26,7 @@ $user_name = $_SESSION['user_name'] ?? '';
       <?php if ($logged_in): ?>
         <div class="nav-buttons">
           <a href="guardar_apartamento.php" class="btn-nav">Publicar</a>
-          <a href="logout.php" class="btn-nav">Cerrar (<?php echo htmlspecialchars($user_name); ?>)</a>
+          <a href="logout.php" class="btn-nav"><?php echo htmlspecialchars($user_name); ?></a>
         </div>
       <?php else: ?>
         <div class="nav-buttons">

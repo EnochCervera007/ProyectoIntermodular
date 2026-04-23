@@ -3,7 +3,11 @@ session_start();
 require_once 'conexion.php';
 
 $error = '';
-$success = '';
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
@@ -31,7 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("sss", $nombre, $email, $password_hash);
 
             if ($stmt->execute()) {
-                $success = 'Registro exitoso. Ahora puedes iniciar sesión.';
+                $stmt = $conn->prepare("SELECT id, nombre FROM usuarios WHERE email = ?");
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user = $result->fetch_assoc();
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['nombre'];
+                header("Location: index.php");
+                exit;
             } else {
                 $error = 'Error al registrar. Inténtalo de nuevo.';
             }

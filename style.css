@@ -318,8 +318,8 @@ ul { list-style: none; }
 .btn-submit:hover { background: var(--rojo-oscuro); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,16,46,0.45); }
 
 /* ===== FOOTER ===== */
-.footer { background: var(--negro); color: var(--blanco); padding: 80px 0 0; }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 48px; margin-bottom: 60px; }
+.footer { background: var(--negro); color: var(--blanco); padding: 80px 0 0; text-align: center; }
+.footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 60px; justify-items: center; }
 .footer-brand .logo { font-size: 1.4rem; }
 .footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin: 16px 0 20px; max-width: 240px; }
 .footer-social { display: flex; gap: 12px; }

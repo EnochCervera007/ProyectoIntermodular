@@ -344,21 +344,12 @@ $user_name = $_SESSION['user_name'] ?? '';
         </div>
       </div>
     </div>
-  </section>
+</section>
 
   <!-- FOOTER -->
   <footer class="footer" id="contacto">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo">Barcelona<span>Stay</span></a>
-          <p>Tu plataforma de confianza para alquilar y publicar apartamentos turísticos en Barcelona.</p>
-          <div class="footer-social">
-            <a href="#">Instagram</a>
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-          </div>
-        </div>
         <div class="footer-col">
           <h4>Explorar</h4>
           <ul>
@@ -368,13 +359,12 @@ $user_name = $_SESSION['user_name'] ?? '';
             <li><a href="#">Gràcia</a></li>
           </ul>
         </div>
-<div class="footer-col">
+        <div class="footer-col">
           <h4>Propietarios</h4>
           <ul>
             <li><a href="login.php">Publicar apartamento</a></li>
             <li><a href="como_funciona.php">Cómo funciona</a></li>
             <li><a href="tarifas.php">Tarifas</a></li>
-         
           </ul>
         </div>
         <div class="footer-col">
@@ -382,16 +372,15 @@ $user_name = $_SESSION['user_name'] ?? '';
           <ul>
             <li>apbarcelona@gmail.es</li>
             <li>📞 +34 932 000 000</li>
-            
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <p>© 2025 ApBarcelona. Todos los derechos reservados.</p>
         <div>
-          <a href="#">Privacidad</a>
-          <a href="#">Cookies</a>
-          <a href="#">Términos</a>
+          <a href="privacidad.php">Privacidad</a>
+          <a href="cookies.php">Cookies</a>
+          <a href="terminos.php">Términos</a>
         </div>
       </div>
     </div>

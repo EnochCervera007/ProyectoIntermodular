@@ -114,7 +114,7 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="apt-footer">
               <p class="apt-rating">★ 4.9 <span>(84 reseñas)</span></p>
-              <a href="#" class="btn-ver">Ver más</a>
+              <a href="apartamento.php?id=1" class="btn-ver">Ver más</a>
             </div>
           </div>
         </article>
@@ -137,7 +137,7 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="apt-footer">
               <p class="apt-rating">★ 4.7 <span>(61 reseñas)</span></p>
-              <a href="#" class="btn-ver">Ver más</a>
+              <a href="apartamento.php?id=1" class="btn-ver">Ver más</a>
             </div>
           </div>
         </article>
@@ -160,7 +160,7 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="apt-footer">
               <p class="apt-rating">★ 5.0 <span>(112 reseñas)</span></p>
-              <a href="#" class="btn-ver">Ver más</a>
+              <a href="apartamento.php?id=1" class="btn-ver">Ver más</a>
             </div>
           </div>
         </article>
@@ -183,7 +183,7 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="apt-footer">
               <p class="apt-rating">★ 4.8 <span>(48 reseñas)</span></p>
-              <a href="#" class="btn-ver">Ver más</a>
+              <a href="apartamento.php?id=1" class="btn-ver">Ver más</a>
             </div>
           </div>
         </article>
@@ -206,7 +206,7 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="apt-footer">
               <p class="apt-rating">★ 4.6 <span>(37 reseñas)</span></p>
-              <a href="#" class="btn-ver">Ver más</a>
+              <a href="apartamento.php?id=1" class="btn-ver">Ver más</a>
             </div>
           </div>
         </article>
@@ -229,7 +229,7 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="apt-footer">
               <p class="apt-rating">★ 4.9 <span>(73 reseñas)</span></p>
-              <a href="#" class="btn-ver">Ver más</a>
+              <a href="apartamento.php?id=1" class="btn-ver">Ver más</a>
             </div>
           </div>
         </article>

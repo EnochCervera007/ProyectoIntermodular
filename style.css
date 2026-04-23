@@ -244,11 +244,11 @@ ul { list-style: none; }
 .apt-rating { font-size: 0.88rem; font-weight: 600; color: var(--negro); }
 .apt-rating span { color: var(--gris-texto); font-weight: 400; }
 .btn-ver {
-  background: var(--rojo); color: var(--blanco);
+  background: var(--blanco); color: var(--negro);
   padding: 8px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 600;
   transition: var(--transicion);
 }
-.btn-ver:hover { background: var(--rojo-oscuro); transform: translateX(2px); }
+.btn-ver:hover { background: var(--gris-claro); transform: translateX(2px); }
 
 /* ===== POR QUÉ ELEGIRNOS ===== */
 .porque { padding: 100px 0; background: var(--rojo); }

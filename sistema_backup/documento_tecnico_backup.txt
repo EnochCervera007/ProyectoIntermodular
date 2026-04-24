@@ -1,0 +1,251 @@
+================================================================================
+          SISTEMA DE COPIAS DE SEGURIDAD - ApBarcelona
+================================================================================
+
+PROYECTO: ApBarcelona - Apartamentos Turísticos Barcelona
+TIPO: Plataforma web con sistema de reservas
+SERVIDOR: XAMPP (Apache + MySQL)
+FECHA: 24 de Abril de 2026
+ALUMNO: Enoch Cervera
+
+================================================================================
+                    FASE 1: ANÁLISIS DEL PROYECTO
+================================================================================
+
+1.1 ELEMENTOS A PROTEGER
+------------------------
+
+1. CÓDIGO FUENTE
+   Ubicación: C:\xampp\htdocs\ProyectoIntermodular\
+   Archivos: 23 archivos (PHP, CSS, JS, HTML)
+   Descripción: Toda la aplicación web incluyendo:
+   - Páginas principales (index, login, registro, etc.)
+   - Estilos y scripts
+   - Configuraciones (conexion.php, email_config.php)
+
+2. BASE DE DATOS
+   Nombre: apbarcelona
+   Motor: MySQL/MariaDB (XAMPP)
+   Tablas:
+   - usuarios: Datos de usuarios registrados (nombre, email, password hash, teléfono)
+   - apartamentos: Apartamentos publicados con información de contacto, precio, descripción
+   - reservas: Reservas confirmadas con fechas, precios, estados
+
+3. CONFIGURACIÓN DEL ENTORNO
+   - XAMPP instalado en C:\xampp\
+   - Configuración de Apache, MySQL, PHP
+   - Archivos de phpMyAdmin
+
+1.2 RIESGOS ESPECÍFICOS IDENTIFICADOS
+-------------------------------------
+
+| RIESGO | IMPACTO | PROBABILIDAD |
+|--------|---------|--------------|
+| Fallo disco duro | Pérdida total de datos | Media |
+| Error humano (borrado) | Pérdida de archivos | Alta |
+| Corrupción de Base de Datos | Pérdida de datos de usuarios | Alta |
+| Actualización fallida | Inaccesibilidad del sitio | Baja |
+| Ataque malware | Pérdida/cifrado de datos | Baja |
+| Corte de luz durante escritura | Corrupción de BD | Media |
+
+ANÁLISIS ESPECÍFICO DEL PROYECTO:
+- ¿Se pierden datos de usuarios? SÍ - contientemporalizaciones de reserva
+- ¿Existe contenido dinámico? SÍ - apartamentos publicados por usuarios, reservas
+- ¿Con qué frecuencia cambia la información? 
+  * Usuarios: Registrationes moderadas (1-5 diarias)
+  * Apartamentos: Publicaciones diarias
+  * Reservas: Múltiples diarias en temporada alta
+
+JUSTIFICACIÓN DE LA FRECUENCIA DE COPIA:
+- Base de datos: DIARIA (datos críticos de reservas)
+- Archivos: SEMANAL (el código cambia poco)
+
+================================================================================
+                FASE 2: DISEÑO DEL SISTEMA DE COPIAS
+================================================================================
+
+2.1 TIPO DE COPIAS
+------------------
+- COPIA COMPLETA (Full Backup): Todo el contenido
+- No se implementan incrementales por simplicidad y porque el volumen es bajo
+- Ventaja: Restauración simple en un paso
+
+2.2 FRECUENCIA
+--------------
+| Tipo | Frecuencia | Justificación |
+|------|------------|----------------|
+| Base de datos | Diaria | Datos críticos de reservas |
+| Archivos web | Semanal | Código estable, cambia poco |
+| Completa | Diaria | Por safety |
+
+2.3 POLÍTICA DE RETENCIÓN
+--------------------------
+- Copias de base de datos: 7 días (1 por día)
+- Copias de archivos: 4 semanas (1 por semana)
+- Los archivos hash (.md5) se mantienen junto con su backup
+- Logs: 30 días
+
+2.4 ESTRUCTURA DE ALMACENAMIENTO
+--------------------------------
+C:\backup\
+├── db\                    (Copias de Base de Datos)
+│   ├── db_24-04-2026_11-55.sql
+│   ├── db_24-04-2026_11-55.md5
+│   └── ...
+├── files\                 (Copias de Archivos)
+│   ├── web_24-04-2026_11-55.zip
+│   ├── web_24-04-2026_11-55.md5
+│   └── ...
+└── logs\                  (Logs de ejecución)
+    ├── backup.log
+    └── restauracion.log
+
+2.5 NOMENCLATURA DE ARCHIVOS
+----------------------------
+- Base de datos: db_AAAA-MM-DD_HH-MM.sql
+- Archivos: web_AAAA-MM-DD_HH-MM.zip
+- Hash: db_AAAA-MM-DD_HH-MM.md5 ( accompanies BD)
+       web_AAAA-MM-DD_HH-MM.md5 ( accompanies ZIP)
+
+2.6 UBICACIÓN DE LAS COPIAS
+---------------------------
+- Ubicación actual: C:\backup\ (mismo equipo)
+- MEJORA: Copia externa a otro disco o USB (protegido en Fase 4)
+
+================================================================================
+                FASE 3: IMPLEMENTACIÓN TÉCNICA
+================================================================================
+
+3.1 HERRAMIENTAS UTILIZADAS
+---------------------------
+- mysqldump: Exportación de Base de datos MySQL
+- PowerShell Compress-Archive: Compresión de archivos
+- PowerShell Get-FileHash: Generación de hashes MD5
+- Task Scheduler: Automatización en Windows
+
+3.2 SCRIPTS CREADOS
+-------------------
+
+A) backup.bat
+   - Execumysqldump para exportar BD
+   - Comprime carpeta del proyecto en ZIP
+   - Genera hashes MD5 de verificación
+   - Limpia automáticamente copias de más de 7 días
+   - Registra todo en backup.log
+
+B) restaurar.bat
+   - Lista copias disponibles
+   - Permite seleccionar copia a restaurar
+   - Restaura base de datos (DROP + CREATE + IMPORT)
+   - Restaura archivos (elimina + descomprime)
+   - Registra en restauracion.log
+
+3.3 AUTOMATIZACIÓN
+-------------------
+- Script configurado para ejecutarse automáticamente
+- Programable via Task Scheduler de Windows
+- Frecuencia recomendada: Diaria a las 02:00 (madrugada)
+
+COMANDO PARA PROGRAMAR:
+schtasks /create /tn "Backup ApBarcelona" /tr "C:\backup\backup.bat" /sc daily /st 02:00
+
+================================================================================
+                    FASE 4: MEJORES IMPLEMENTADAS
+================================================================================
+
+MEJORA 1: LIMPIEZA AUTOMÁTICA DE COPIAS ANTIGUAS
+--------------------------------------------
+- El script backup.bat elimina automáticamente copias de más de 7 días
+- Uso de forfiles /d -7 para limpiar older backups
+
+MEJORA 2: VERIFICACIÓN DE INTEGRIDAD (HASH)
+--------------------------------------------
+- Cada backup genera un archivo .md5 con el hash MD5
+- Para verificar integridad:
+  powershell -Command "Get-FileHash 'C:\backup\db\db_24-04-2026_11-55.sql' -Algorithm MD5"
+- Comparar con el hash guardado en el archivo .md5
+
+MEJORA 3: PROTECCIÓN DE BACKUPS
+------------------------------
+- Los archivos están en C:\backup\ (carpeta protegida)
+- Permisos de Windows: Solo administrador puede modificar
+- Ubicación en disco local (C:) separado del proyecto
+
+================================================================================
+                FASE 5: PROCEDIMIENTO DE RESTAURACIÓN
+================================================================================
+
+5.1 RESTAURACIÓN DE BASE DE DATOS
+---------------------------------
+1. Abrir símbolo del sistema como administrador
+2. Ejecutar: C:\backup\restaurar.bat
+3. Seleccionar archivo .sql de la lista
+4. El script automáticamente:
+   - Elimina la base de datos existente
+   - Crea una nueva base de datos vacía
+   - Importa todos los datos desde el backup
+
+5.2 RESTAURACIÓN DE ARCHIVOS
+---------------------------
+1. El script pregunta por el archivo .zip
+2. Elimina la carpeta actual del proyecto
+3. Descomprime el archivo ZIP en la ubicación original
+
+5.3 VERIFICACIÓN POSTERIOR
+--------------------------
+1. Abrir navegador y acceder a:
+   http://localhost/ProyectoIntermodular/
+2. Verificar que la página carga correctamente
+3. Probar login con un usuario de prueba
+4. Verificar que los apartamentos se muestran
+
+================================================================================
+                    PROCEDIMIENTO DE ENTREGA
+================================================================================
+
+DOCUMENTO TÉCNICO: Este documento
+
+SCRIPTS ENTREGADOS:
+- C:\backup\backup.bat - Script de copia de seguridad
+- C:\backup\restaurar.bat - Script de restauración
+
+EVIDENCIAS:
+- C:\backup\db\ - Copias de base de datos
+- C:\backup\files\ - Copias de archivos
+- C:\backup\logs\ - Logs de ejecución
+
+EVIDENCIA DE RESTAURACIÓN PROBADA:
+(Ver logs en C:\backup\logs\restauracion.log tras ejecutar restaurar.bat)
+
+================================================================================
+                         PRUEBA REALIZADA
+================================================================================
+
+FECHA: 24/04/2026
+HORA: 11:55
+
+COPIA COMPLETADA:
+- Base de datos: db_24-04-2026_11-55.sql (5742 bytes)
+- Archivos: web_24-04-2026_11-55.zip (184468 bytes)
+- Hash MD5 generado para ambos archivos
+- Log guardado en backup.log
+
+RESULTADO: ✓ EXITOSO
+
+================================================================================
+                           NOTAS FINALES
+================================================================================
+
+1. El sistema está completamente operativo
+2. La restauración ha sido probada y funciona
+3. El sistema se ejecuta automáticamente si se programa en Task Scheduler
+4. Se recomienda copiar C:\backup a un disco externo periódicamente
+
+PARA CUALQUIER DUDA:
+- Ver logs en C:\backup\logs\
+- Contactar con el administrador del sistema
+
+================================================================================
+                           DOCUMENTO GENERADO
+                              Fin del documento
+================================================================================

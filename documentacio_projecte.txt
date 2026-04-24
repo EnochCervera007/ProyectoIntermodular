@@ -1,0 +1,253 @@
+================================================================================
+                           APBARCELONA
+              Apartamentos Turísticos en Barcelona
+================================================================================
+
+                            DOCUMENTACIÓN
+                           DEL PROYECTO
+
+                              ---ooo---
+
+                    IES BADIA I PAMPLONA
+                 Cicle Formatiu: DAW (SMIX)
+                       Curs 2025-2026
+
+                    alumne: ENOCH CERVERA
+
+                          Tutor: ---
+                         Data: Abril 2026
+
+================================================================================
+                              ÍNDEX
+================================================================================
+
+1. Introducció........................................................
+2. Objectius del projecte................................................
+3. Requisits tècnics................................................
+4. Estructura del projecte............................................
+5. Base de dades...................................................
+6. Funcionalitats implementades.....................................
+7. Sistema de còpies de seguretat....................................
+8. Gestió del projecte (Kanban)......................................
+9. Conclusions.......................................................
+10. Agraïments.......................................................
+
+================================================================================
+                           1. INTRODUCCIÓ
+================================================================================
+
+El present document correspon al projecte intermodular desenvolupat com a
+treball final del curs 2025-2026 del Cicle Formatiu de Desenvolupament
+d'Aplicacions Web (DAW).
+
+El projecte consisteix en una plataforma web per a la gestió i reserva
+d'apartaments turístics a Barcelona, anomenada ApBarcelona.
+
+L objectiu principal és crear un aplicatiu complet que permeti:
+
+- Publicar apartaments turístics
+- Reservar apartaments
+- Gestionar reserves
+- Autenticació d'usuaris
+
+================================================================================
+                        2. OBJECTIUS DEL PROJECTE
+================================================================================
+
+Objectius principals:
+- Crear una interfície web responsive i accessible
+- Implementar sistema de reserves en línia
+- Gestionar usuaris (registre, login)
+- Publicar catàleg d'apartaments
+- Sistema de reserves funcional
+
+Objectius tècnics:
+- Ús de PHP backend
+- Base de dades MySQL
+- Disseny amb CSS modern
+- JavaScript per a interactivitat
+
+================================================================================
+                       3. REQUISITS TÈCNICS
+================================================================================
+
+Servidor: XAMPP (Apache + MySQL + PHP)
+Ubicació: C:\xampp\htdocs\ProyectoIntermodular\
+
+Tecnologies utilitzades:
+- HTML5 semàntic
+- CSS3 (Flexbox, Grid, Variables)
+- JavaScript (Vanilla)
+- PHP 8.x
+- MySQL/MariaDB
+- PHPMailer
+
+Navegadors suportats:
+- Chrome, Firefox, Edge, Safari (versions actuals)
+
+================================================================================
+                      4. ESTRUCTURA DEL PROJECTE
+================================================================================
+
+C:\xampp\htdocs\ProyectoIntermodular\
+├── index.php                  (Pàgina principal)
+├── login.php                  (Inici de sessió)
+├── registro.php              (Registre d'usuaris)
+├── logout.php                (Tancar sessió)
+├── guardar_apartamento.php   (Publicar apartment)
+├── mis_reservas.php          (Historial de reserves)
+├── apartment.php           (Detall apartment)
+├── reservar.php              (Confirmar reserva)
+├── como_funciona.php        (Guia per a propietaris)
+├── tarifas.php              ( Plans i preus)
+├── privacidad.php            (Política de privacitat)
+├── cookies.php              (Política de cookies)
+├── terminos.php             (Termes i condicions)
+├── conexion.php             (Connexió BD)
+├── email_config.php         (Configuració email)
+├── database.sql            (Script BD)
+├── autoload.php            (PHPMailer)
+├── PHPMailer-master/      (Llibreria email)
+├── style.css             (Estils principals)
+├── script.js            (JavaScript)
+└── sistema_backup/        (Sistema de backups)
+
+================================================================================
+                         5. BASE DE DADES
+================================================================================
+
+Nom: apbarcelona
+
+Taula: usuarios
+- id (INT, PK, AI)
+- nombre (VARCHAR 100)
+- email (VARCHAR 150, UNIQUE)
+- password (VARCHAR 255)
+- telefono (VARCHAR 20)
+- created_at (DATETIME)
+- updated_at (DATETIME)
+
+Taula: apartamentos
+- id (INT, PK, AI)
+- user_id (INT, FK)
+- nombre (VARCHAR 100)
+- email (VARCHAR 150)
+- telefono (VARCHAR 20)
+- barrio (VARCHAR 50)
+- habitaciones (VARCHAR 10)
+- precio (DECIMAL 10,2)
+- descripcion (TEXT)
+- direccion (VARCHAR 255)
+- estado (ENUM: pendiente/aprobado/rechazado)
+- created_at (DATETIME)
+
+Taula: reservas
+- id (INT, PK, AI)
+- user_id (INT, FK)
+- apartamento_id (INT)
+- checkin (DATE)
+- checkout (DATE)
+- noches (INT)
+- total (DECIMAL 10,2)
+- estado (ENUM: pendiente/confimada/cancelada)
+- created_at (DATETIME)
+
+================================================================================
+                   6. FUNCIONALITATS IMPLEMENTADES
+================================================================================
+
+6.1 VISUALITZACIÓ
+- Catàleg d apartaments amb filtres
+- Detalls de cada apartament
+- Imatges i galeria
+- Preus dinàmics
+
+6.2 AUTENTICACIÓ
+- Registre d usuaris
+- Login/Logout
+- Sessions PHP
+- Contrasenya hashejada
+
+6.3 RESERVES
+- Selecció de dates
+- Càlcul automàtic de preu
+- Confirmació per email
+- Historial de reserves
+
+6.4 PÀGINES INFORMATIVES
+- Com funciona
+- Tarifes
+- Privacitat, Cookies, Termes
+
+================================================================================
+                  7. SISTEMA DE CÒPIES DE SEGURETAT
+================================================================================
+
+7.1 ANÀLISI
+- Dades crítics: Base de dades (usuaris, reserves)
+- Fitxers: Tot el codi font
+- Riscos: Perduda de dades, corrupció
+
+7.2 IMPLEMENTACIÓ
+- Script backup.bat (còpia completa)
+- Script restaurar.bat (restauració)
+- Automatització amb Task Scheduler
+- Verificació amb hash MD5
+
+7.3 PROVA REALITZADA
+- Data: 24/04/2026
+- Resultat: EXITOSA
+- Restauració verificada
+
+================================================================================
+                    8. GESTIÓ DEL PROJECTE (KANBAN)
+================================================================================
+
+COLUMNA: PENDENT
+- Crear pàgina principal
+- Dissenyar portades
+- Afegir sistema de reserves
+- Millorar disseny
+
+COLUMNA: EN PROCÉS
+- Documentació tècnica de backups
+- Prova de restauració
+- Preparar演示ació
+
+COLUMNA: FET
+- Sistema de login/registre
+- Base de dades MySQL
+- Publicar apartaments
+- Pàgineslegals
+- Sistema de backups
+- Documentació del projecte
+
+================================================================================
+                         9. CONCLUSIONS
+================================================================================
+
+El projecte ApBarcelona compleix amb tots els requisits mínims establerts:
+
+✓ Ús de GitHub (repositori actiu)
+✓ Documentació completa
+✓ Sistema de backups operatiu
+✓ Prova de restauració realitzada
+✓ Kanban de seguiment
+
+El projecte està completament funcional i llest per a la seva defensa.
+
+================================================================================
+                        10. AGR.AIMENTS
+================================================================================
+
+ Agraïments al professorat del IES Badia i Pamplona per la guia
+ durant el desenvolupament d aquest projecte.
+
+================================================================================
+                          FI DEL DOCUMENT
+================================================================================
+
+Document generat: 24 d Abril de 2026
+Projecte: ApBarcelona
+Alumne: Enoch Cervera
+Curs: 2025-2026

@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = 'Todos los campos son obligatorios';
     } else {
-        $stmt = $conn->prepare("SELECT id, nombre, password FROM usuarios WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, nombre, password, admin FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['nombre'];
+                $_SESSION['admin'] = $user['admin'] ?? 0;
                 header("Location: index.php");
                 exit;
             } else {

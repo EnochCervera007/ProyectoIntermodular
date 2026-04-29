@@ -3,9 +3,32 @@ session_start();
 require_once 'conexion.php';
 
 $logged_in = isset($_SESSION['user_id']);
+$is_admin = $_SESSION['admin'] ?? 0;
 $user_name = $_SESSION['user_name'] ?? '';
+$id = intval($_GET['id'] ?? 1);
 
-$id = $_GET['id'] ?? 1;
+// Cargar comentarios de la base de datos
+$stmt_comments = $conn->prepare("SELECT * FROM comentarios WHERE apartamento_id = ? ORDER BY fecha DESC");
+$stmt_comments->bind_param("i", $id);
+$stmt_comments->execute();
+$result_comments = $stmt_comments->get_result();
+$comentarios = [];
+while ($row = $result_comments->fetch_assoc()) {
+    $comentarios[] = $row;
+}
+
+// Procesar nuevo comentario
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && $logged_in) {
+    $rating = floatval($_POST['rating']);
+    $comentario = trim($_POST['comentario']);
+    if ($rating > 0 && !empty($comentario)) {
+        $stmt_new = $conn->prepare("INSERT INTO comentarios (apartamento_id, user_id, user_name, rating, comentario) VALUES (?, ?, ?, ?, ?)");
+        $stmt_new->bind_param("iisss", $id, $_SESSION['user_id'], $user_name, $rating, $comentario);
+        $stmt_new->execute();
+        header("Location: apartamento.php?id=$id");
+        exit;
+    }
+}
 
 $apartamentos = [
     1 => [
@@ -242,12 +265,65 @@ $apt = $apartamentos[$id] ?? $apartamentos[1];
               </div>
             </div>
             
-            <button type="submit" class="btn-book">Reservar ahora</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+<button type="submit" class="btn-book">Reservar ahora</button>
+           </form>
+         </div>
+       </div>
+       
+       <!-- COMENTARIOS -->
+       <div class="comentarios-section" style="margin-top: 40px; padding-top: 40px; border-top: 1px solid #eee;">
+         <h2 style="font-size: 1.8rem; color: #000; margin-bottom: 24px;">Valoraciones y comentarios</h2>
+         
+         <?php if ($logged_in): ?>
+         <form method="POST" style="background: #f8f8f8; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+           <h3 style="font-size: 1.1rem; color: #000; margin-bottom: 12px;">Publica tu experiencia</h3>
+           <div style="margin-bottom: 12px;">
+             <label style="display: block; color: #666; margin-bottom: 6px;">Nota</label>
+             <select name="rating" required style="padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+               <option value="">Selecciona...</option>
+               <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+               <option value="4">⭐⭐⭐⭐ Bueno</option>
+               <option value="3">⭐⭐⭐ Normal</option>
+               <option value="2">⭐⭐ Regular</option>
+               <option value="1">⭐ Malo</option>
+             </select>
+           </div>
+<div style="margin-bottom: 12px;">
+             <label style="display: block; color: #333; margin-bottom: 6px; font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600;">Comparte tu experiencia</label>
+             <textarea name="comentario" rows="3" placeholder="Escribe tu opinión sobre el apartamento..." required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-family: 'DM Sans', sans-serif;"></textarea>
+           </div>
+           <button type="submit" name="nuevo_comentario" style="background: #C8102E; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">Publicar</button>
+         </form>
+         <?php endif; ?>
+         
+         <?php if (count($comentarios) > 0): ?>
+         <div class="comentarios-list">
+           <?php foreach ($comentarios as $c): ?>
+           <div style="background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+               <strong style="color: #000;"><?php echo htmlspecialchars($c['user_name']); ?></strong>
+               <span style="display: flex; align-items: center; gap: 10px;">
+                 <span style="color: #f39c12;"><?php for($i=0; $i<$c['rating']; $i++) echo '⭐'; ?></span>
+                 <?php if ($is_admin): ?>
+                 <form method="POST" action="gestionar_comentarios.php" style="display:inline;">
+                   <input type="hidden" name="apartamento_id" value="<?php echo $id; ?>">
+                   <input type="hidden" name="comentario_id" value="<?php echo $c['id']; ?>">
+                   <button type="submit" name="action" value="delete" style="background: #c62828; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;" onclick="return confirm('¿Eliminar comentario?');">Eliminar</button>
+                 </form>
+                 <?php endif; ?>
+               </span>
+             </div>
+             <p style="color: #666; font-size: 0.95rem; line-height: 1.5;"><?php echo htmlspecialchars($c['comentario']); ?></p>
+             <small style="color: #999; font-size: 0.8rem;"><?php echo date('d/m/Y', strtotime($c['fecha'])); ?></small>
+           </div>
+           <?php endforeach; ?>
+         </div>
+         <?php else: ?>
+         <p style="color: #666;">No hay comentarios todavía. ¡Sé el primero en compartir tu experiencia!</p>
+         <?php endif; ?>
+       </div>
+     </div>
+   </div>
   
   <script>
     const precio = <?php echo $apt['precio']; ?>;

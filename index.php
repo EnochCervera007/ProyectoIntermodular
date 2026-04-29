@@ -47,7 +47,7 @@ $user_name = $_SESSION['user_name'] ?? '';
       <p class="hero-sub">Apartamentos turísticos de alta calidad en los mejores barrios de la ciudad condal. Vive Barcelona como un local.</p>
       <div class="hero-btns">
         <a href="#apartamentos" class="btn-primary">Ver apartamentos</a>
-        <a href="login.php" class="btn-secondary">Publica el tuyo</a>
+        <a href="guardar_apartamento.php" class="btn-secondary">Publica el tuyo</a>
       </div>
     </div>
     <div class="hero-stats">

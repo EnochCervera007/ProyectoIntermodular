@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS apartamentos (
     precio DECIMAL(10,2) NOT NULL,
     descripcion TEXT,
     direccion VARCHAR(255),
+    imagen VARCHAR(255) DEFAULT NULL,
     estado ENUM('pendiente','aprobado','rechazado') DEFAULT 'pendiente',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE

@@ -19,22 +19,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $precio = floatval($_POST['precio'] ?? 0);
     $descripcion = trim($_POST['descripcion'] ?? '');
     $direccion = trim($_POST['direccion'] ?? '');
+    $imagen = '';
 
     if (empty($nombre) || empty($email) || empty($barrio) || empty($habitaciones) || empty($precio) || empty($descripcion) || empty($direccion)) {
         $error = 'Todos los campos son obligatorios';
     } else {
-        $sql = "INSERT INTO apartamentos (user_id, nombre, email, telefono, barrio, habitaciones, precio, descripcion, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        
-        if ($stmt === false) {
-            $error = 'Error en la consulta: ' . $conn->error;
-        } else {
-            $stmt->bind_param("isssssdss", $_SESSION['user_id'], $nombre, $email, $telefono, $barrio, $habitaciones, $precio, $descripcion, $direccion);
-
-            if ($stmt->execute()) {
-                $success = 'Apartamento enviado correctamente. Te contactaremos pronto.';
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            $tipos_permitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!in_array($_FILES['imagen']['type'], $tipos_permitidos)) {
+                $error = 'Solo se permiten imágenes (JPG, PNG, GIF, WebP)';
+            } elseif ($_FILES['imagen']['size'] > 5 * 1024 * 1024) {
+                $error = 'La imagen no puede superar los 5MB';
             } else {
-                $error = 'Error al enviar. Inténtalo de nuevo.';
+                $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+                $imagen = uniqid('apt_') . '.' . $ext;
+                $ruta_destino = __DIR__ . '/uploads/' . $imagen;
+                if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_destino)) {
+                    $error = 'Error al subir la imagen';
+                    $imagen = '';
+                }
+            }
+        }
+
+        if (empty($error)) {
+            $sql = "INSERT INTO apartamentos (user_id, nombre, email, telefono, barrio, habitaciones, precio, descripcion, direccion, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            if ($stmt === false) {
+                $error = 'Error en la consulta: ' . $conn->error;
+            } else {
+                $stmt->bind_param("issssssdss", $_SESSION['user_id'], $nombre, $email, $telefono, $barrio, $habitaciones, $precio, $descripcion, $direccion, $imagen);
+
+                if ($stmt->execute()) {
+                    $success = 'Apartamento enviado correctamente. Te contactaremos pronto.';
+                } else {
+                    $error = 'Error al enviar. Inténtalo de nuevo.';
+                }
             }
         }
     }
@@ -92,6 +112,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .alert { padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
     .alert.success { background: #152a15; border: 1px solid #204a20; color: #5e5; }
     .alert.error { background: #2a1515; border: 1px solid #4a2020; color: #e55; }
+    .file-input-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .file-input-wrapper input[type="file"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+    .file-input-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; background: linear-gradient(135deg, #c9a55c, #a3843e);
+      border-radius: 8px; color: #000; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: opacity 0.2s; border: none;
+    }
+    .file-input-label:hover { opacity: 0.9; }
+    .file-input-name { font-size: 0.85rem; color: #666; }
+    .image-preview { margin-top: 12px; position: relative; display: inline-block; }
+    .image-preview img { max-width: 240px; max-height: 160px; border-radius: 8px; border: 1px solid #333; object-fit: cover; }
+    .btn-remove-img {
+      position: absolute; top: -8px; right: -8px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #c9a55c; color: #000; border: 2px solid #141414;
+      font-size: 0.7rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.2s;
+    }
+    .btn-remove-img:hover { opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -118,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="alert error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
           <div class="form-grid">
             <div class="form-group">
               <label for="nombre">Nombre completo *</label>
@@ -169,6 +210,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="form-group full">
             <label for="direccion">Dirección (no se mostrará) *</label>
             <input type="text" id="direccion" name="direccion" placeholder="Carrer de..., Barcelona" required>
+          </div>
+          <div class="form-group full">
+            <label for="imagen">Foto del apartamento</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="imagen" name="imagen" accept="image/jpeg,image/png,image/gif,image/webp">
+              <label for="imagen" class="file-input-label">📷 Seleccionar imagen</label>
+              <span class="file-input-name">Ningún archivo seleccionado</span>
+            </div>
+            <div class="image-preview" id="imagePreview" style="display:none;">
+              <img id="previewImg" src="#" alt="Preview">
+              <button type="button" class="btn-remove-img" id="btnRemoveImg">✕</button>
+            </div>
           </div>
           <button type="submit" class="btn-send">Enviar apartamento →</button>
         </form>

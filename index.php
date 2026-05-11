@@ -283,7 +283,7 @@ $user_name = $_SESSION['user_name'] ?? '';
           </ul>
         </div>
         <div class="form-right">
-          <form action="guardar_apartamento.php" method="POST" class="apt-form">
+          <form action="guardar_apartamento.php" method="POST" enctype="multipart/form-data" class="apt-form">
             <div class="form-row">
               <div class="form-group">
                 <label for="nombre">Nombre completo *</label>
@@ -339,17 +339,38 @@ $user_name = $_SESSION['user_name'] ?? '';
               <label for="direccion">Dirección (no se mostrará públicamente) *</label>
               <input type="text" id="direccion" name="direccion" placeholder="Carrer de..., Barcelona" required/>
             </div>
+            <div class="form-group full">
+              <label for="imagen">Foto del apartamento</label>
+              <div class="file-input-wrapper">
+                <input type="file" id="imagen" name="imagen" accept="image/jpeg,image/png,image/gif,image/webp">
+                <label for="imagen" class="file-input-label">📷 Seleccionar imagen</label>
+                <span class="file-input-name">Ningún archivo seleccionado</span>
+              </div>
+              <div class="image-preview" id="imagePreview" style="display:none;">
+                <img id="previewImg" src="#" alt="Preview">
+                <button type="button" class="btn-remove-img" id="btnRemoveImg">✕ Eliminar</button>
+              </div>
+            </div>
             <button type="submit" class="btn-submit">Enviar mi apartamento →</button>
           </form>
         </div>
       </div>
     </div>
-</section>
+  </section>
 
   <!-- FOOTER -->
   <footer class="footer" id="contacto">
     <div class="container">
       <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">Barcelona<span></span></a>
+          <p>Tu plataforma de confianza para alquilar y publicar apartamentos turísticos en Barcelona.</p>
+          <div class="footer-social">
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+          </div>
+        </div>
         <div class="footer-col">
           <h4>Explorar</h4>
           <ul>

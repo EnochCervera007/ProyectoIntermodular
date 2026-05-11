@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .btn-auth {width: 100%; padding: 16px; background: linear-gradient(135deg, #c9a55c, #a3843e); border: none; border-radius: 12px; color: #000; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, opacity 0.2s;}
     .btn-auth:hover {transform: translateY(-2px);}
     .auth-error {background: #2a1515; border: 1px solid #4a2020; color: #e55; padding: 14px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 0.9rem;}
-    .auth-success {background: #152a15; border: 1px solid #204a20; color: #5e5; padding: 14px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 0.9rem;}
     .auth-footer {text-align: center; margin-top: 24px; color: #666;}
     .auth-footer a {color: #c9a55c; text-decoration: none;}
     .auth-footer a:hover {text-decoration: underline;}
@@ -86,10 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
       <?php if ($error): ?>
         <div class="auth-error"><?php echo htmlspecialchars($error); ?></div>
-      <?php endif; ?>
-      
-      <?php if ($success): ?>
-        <div class="auth-success"><?php echo htmlspecialchars($success); ?></div>
       <?php endif; ?>
 
       <form method="POST" class="auth-form">

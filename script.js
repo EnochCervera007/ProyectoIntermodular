@@ -50,3 +50,37 @@ if (params.get('ok') === '1') {
   document.body.appendChild(banner);
   setTimeout(() => banner.remove(), 5000);
 }
+
+// ===== PREVISUALIZACIÓN DE IMAGEN =====
+document.querySelectorAll('input[type="file"][name="imagen"]').forEach(input => {
+  const wrapper = input.closest('.form-group');
+  if (!wrapper) return;
+  const nameSpan = wrapper.querySelector('.file-input-name');
+  const preview = wrapper.querySelector('.image-preview');
+  const previewImg = wrapper.querySelector('#previewImg');
+  const removeBtn = wrapper.querySelector('#btnRemoveImg');
+
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (file) {
+      nameSpan.textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        preview.style.display = 'inline-block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      nameSpan.textContent = 'Ningún archivo seleccionado';
+      preview.style.display = 'none';
+    }
+  });
+
+  if (removeBtn) {
+    removeBtn.addEventListener('click', () => {
+      input.value = '';
+      nameSpan.textContent = 'Ningún archivo seleccionado';
+      preview.style.display = 'none';
+    });
+  }
+});

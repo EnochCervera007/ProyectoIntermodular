@@ -52,43 +52,41 @@ if (params.get('ok') === '1') {
 }
 
 // ===== FOTOS: AÑADIR Y PREVISUALIZAR =====
-function setupPhotoUpload(inputId, listId, countId) {
-  const input = document.getElementById(inputId);
-  const list = document.getElementById(listId);
-  const count = document.getElementById(countId);
-  if (!input || !list || !count) return;
-  let files = [];
+;(function() {
+  function setup(inputId, infoId, stripId) {
+    const input = document.getElementById(inputId);
+    const info = document.getElementById(infoId);
+    const strip = document.getElementById(stripId);
+    if (!input || !info || !strip) return;
+    let files = [];
 
-  input.addEventListener('change', () => {
-    files = files.concat(Array.from(input.files));
-    render();
-  });
-
-  function render() {
-    list.innerHTML = '';
-    count.textContent = files.length ? `${files.length} foto${files.length > 1 ? 's' : ''} seleccionada${files.length > 1 ? 's' : ''}` : 'Ninguna foto seleccionada';
-    files.forEach((file, i) => {
-      const r = new FileReader();
-      r.onload = e => {
-        const div = document.createElement('div');
-        div.className = 'photo-thumb';
-        div.innerHTML = `<img src="${e.target.result}"><button type="button" class="del" data-i="${i}">✕</button>`;
-        list.appendChild(div);
-        div.querySelector('.del').addEventListener('click', () => {
-          files.splice(i, 1);
-          rebuildInput();
-          render();
-        });
-      };
-      r.readAsDataURL(file);
+    input.addEventListener('change', () => {
+      files = files.concat(Array.from(input.files));
+      render();
     });
-  }
 
-  function rebuildInput() {
-    const dt = new DataTransfer();
-    files.forEach(f => dt.items.add(f));
-    input.files = dt.files;
+    function render() {
+      strip.innerHTML = '';
+      const n = files.length;
+      info.textContent = n ? `${n} foto${n > 1 ? 's' : ''}` : '';
+      files.forEach((f, i) => {
+        const r = new FileReader();
+        r.onload = e => {
+          const div = document.createElement('div');
+          div.className = 'thumb';
+          div.innerHTML = `<img src="${e.target.result}"><button type="button" class="x" data-i="${i}">✕</button>`;
+          strip.appendChild(div);
+          div.querySelector('.x').addEventListener('click', () => {
+            files.splice(i, 1);
+            const dt = new DataTransfer();
+            files.forEach(f => dt.items.add(f));
+            input.files = dt.files;
+            render();
+          });
+        };
+        r.readAsDataURL(f);
+      });
+    }
   }
-}
-
-setupPhotoUpload('imagenes', 'photoList', 'photoCount');
+  setup('imagenes', 'photoInfo', 'photoStrip');
+})();

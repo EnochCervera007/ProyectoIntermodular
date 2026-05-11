@@ -341,12 +341,13 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="form-group full">
               <label>Fotos del apartamento</label>
-              <div class="add-photos-btn">
-                📷 Añadir fotos
+              <div class="photo-box" id="photoBox">
                 <input type="file" id="imagenes" name="imagenes[]" multiple accept="image/jpeg,image/png,image/gif,image/webp">
+                <div class="icon">📷</div>
+                <p>Añadir fotos</p>
               </div>
-              <span class="photo-count" id="photoCount">Ninguna foto seleccionada</span>
-              <div class="photo-list" id="photoList"></div>
+              <div class="photo-info" id="photoInfo"></div>
+              <div class="photo-strip" id="photoStrip"></div>
             </div>
             <button type="submit" class="btn-submit">Enviar mi apartamento →</button>
           </form>

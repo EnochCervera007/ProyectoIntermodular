@@ -317,31 +317,32 @@ ul { list-style: none; }
 .btn-submit:hover { background: var(--rojo-oscuro); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,16,46,0.45); }
 
 /* ===== FOTOS ===== */
-.add-photos-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 20px; background: var(--rojo); color: var(--blanco);
-  border: none; border-radius: 50px; font-size: 0.9rem; font-weight: 600;
-  cursor: pointer; transition: var(--transicion); position: relative; overflow: hidden;
+.photo-box {
+  border: 2px dashed var(--gris-medio); border-radius: 14px; padding: 32px 20px;
+  text-align: center; cursor: pointer; transition: var(--transicion);
+  background: var(--blanco); position: relative;
 }
-.add-photos-btn:hover { background: var(--rojo-oscuro); transform: translateY(-1px); box-shadow: var(--sombra); }
-.add-photos-btn input[type="file"] {
+.photo-box:hover { border-color: var(--rojo); background: var(--gris-claro); }
+.photo-box input[type="file"] {
   position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer;
 }
-.photo-count { color: var(--gris-texto); font-size: 0.85rem; margin-left: 4px; }
-.photo-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.photo-thumb {
-  position: relative; width: 72px; height: 72px; border-radius: 8px;
+.photo-box .icon { font-size: 2.2rem; margin-bottom: 8px; }
+.photo-box p { color: var(--gris-texto); font-size: 0.95rem; margin: 0; font-weight: 500; }
+.photo-info { color: #aaa; font-size: 0.8rem; margin-top: 6px; }
+.photo-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.photo-strip .thumb {
+  position: relative; width: 64px; height: 64px; border-radius: 8px;
   overflow: hidden; border: 1px solid var(--gris-medio);
 }
-.photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.photo-thumb .del {
+.photo-strip .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-strip .thumb .x {
   position: absolute; top: 2px; right: 2px;
   width: 18px; height: 18px; border-radius: 50%;
   background: rgba(0,0,0,0.6); color: #fff; border: none;
   font-size: 0.6rem; cursor: pointer; line-height: 18px; text-align: center;
   transition: var(--transicion);
 }
-.photo-thumb .del:hover { background: var(--rojo); }
+.photo-strip .thumb .x:hover { background: var(--rojo); }
 
 /* ===== FOOTER ===== */
 .footer { background: var(--negro); color: var(--blanco); padding: 80px 0 0; text-align: center; }

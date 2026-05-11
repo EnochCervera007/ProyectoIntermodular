@@ -123,30 +123,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .alert { padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
     .alert.success { background: #152a15; border: 1px solid #204a20; color: #5e5; }
     .alert.error { background: #2a1515; border: 1px solid #4a2020; color: #e55; }
-    .add-photos-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 24px; background: linear-gradient(135deg, #c9a55c, #a3843e);
-      border: none; border-radius: 8px; color: #000; font-size: 0.9rem; font-weight: 600;
-      cursor: pointer; transition: opacity 0.2s; position: relative; overflow: hidden;
+    .photo-box {
+      border: 2px dashed #333; border-radius: 12px; padding: 32px 20px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+      background: #0d0d0d; position: relative;
     }
-    .add-photos-btn:hover { opacity: 0.9; }
-    .add-photos-btn input[type="file"] {
+    .photo-box:hover { border-color: #c9a55c; background: #111; }
+    .photo-box input[type="file"] {
       position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer;
     }
-    .photo-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .photo-thumb {
-      position: relative; width: 72px; height: 72px; border-radius: 6px;
+    .photo-box .icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .photo-box p { color: #888; font-size: 0.95rem; margin: 0; }
+    .photo-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .photo-strip .thumb {
+      position: relative; width: 64px; height: 64px; border-radius: 6px;
       overflow: hidden; border: 1px solid #333;
     }
-    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .photo-thumb .del {
+    .photo-strip .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-strip .thumb .x {
       position: absolute; top: 2px; right: 2px;
       width: 18px; height: 18px; border-radius: 50%;
       background: rgba(0,0,0,0.7); color: #fff; border: none;
       font-size: 0.6rem; cursor: pointer; line-height: 18px; text-align: center;
     }
-    .photo-thumb .del:hover { background: #c9a55c; color: #000; }
-    .photo-count { color: #666; font-size: 0.85rem; margin-left: 8px; }
+    .photo-strip .thumb .x:hover { background: #c9a55c; color: #000; }
+    .photo-info { color: #555; font-size: 0.8rem; margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -227,12 +228,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div class="form-group full">
             <label>Fotos del apartamento</label>
-            <div class="add-photos-btn">
-              📷 Añadir fotos
+            <div class="photo-box" id="photoBox">
               <input type="file" id="imagenes" name="imagenes[]" multiple accept="image/jpeg,image/png,image/gif,image/webp">
+              <div class="icon">📷</div>
+              <p>Añadir fotos</p>
             </div>
-            <span class="photo-count" id="photoCount">Ninguna foto seleccionada</span>
-            <div class="photo-list" id="photoList"></div>
+            <div class="photo-info" id="photoInfo"></div>
+            <div class="photo-strip" id="photoStrip"></div>
           </div>
           <button type="submit" class="btn-send">Enviar apartamento →</button>
         </form>

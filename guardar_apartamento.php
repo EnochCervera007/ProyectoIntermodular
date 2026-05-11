@@ -123,31 +123,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .alert { padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
     .alert.success { background: #152a15; border: 1px solid #204a20; color: #5e5; }
     .alert.error { background: #2a1515; border: 1px solid #4a2020; color: #e55; }
-    .upload-area {
-      border: 2px dashed #333; border-radius: 12px; padding: 40px 20px;
-      text-align: center; cursor: pointer; transition: all 0.2s;
-      background: #0d0d0d; position: relative;
+    .add-photos-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; background: linear-gradient(135deg, #c9a55c, #a3843e);
+      border: none; border-radius: 8px; color: #000; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: opacity 0.2s; position: relative; overflow: hidden;
     }
-    .upload-area:hover, .upload-area.dragover { border-color: #c9a55c; background: #1a1a1a; }
-    .upload-area input[type="file"] { position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer; }
-    .upload-area .upload-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .upload-area p { color: #888; font-size: 0.95rem; margin-bottom: 4px; }
-    .upload-area .upload-hint { color: #555; font-size: 0.8rem; }
-    .preview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
-    .preview-item {
-      position: relative; border-radius: 8px; overflow: hidden;
-      aspect-ratio: 4/3; border: 1px solid #333;
+    .add-photos-btn:hover { opacity: 0.9; }
+    .add-photos-btn input[type="file"] {
+      position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer;
     }
-    .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .preview-item .remove-img {
-      position: absolute; top: 4px; right: 4px;
-      width: 22px; height: 22px; border-radius: 50%;
+    .photo-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .photo-thumb {
+      position: relative; width: 72px; height: 72px; border-radius: 6px;
+      overflow: hidden; border: 1px solid #333;
+    }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-thumb .del {
+      position: absolute; top: 2px; right: 2px;
+      width: 18px; height: 18px; border-radius: 50%;
       background: rgba(0,0,0,0.7); color: #fff; border: none;
-      font-size: 0.7rem; cursor: pointer; display: flex;
-      align-items: center; justify-content: center;
-      transition: background 0.2s;
+      font-size: 0.6rem; cursor: pointer; line-height: 18px; text-align: center;
     }
-    .preview-item .remove-img:hover { background: #c9a55c; color: #000; }
+    .photo-thumb .del:hover { background: #c9a55c; color: #000; }
+    .photo-count { color: #666; font-size: 0.85rem; margin-left: 8px; }
   </style>
 </head>
 <body>
@@ -228,13 +227,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div class="form-group full">
             <label>Fotos del apartamento</label>
-            <div class="upload-area" id="uploadArea">
+            <div class="add-photos-btn">
+              📷 Añadir fotos
               <input type="file" id="imagenes" name="imagenes[]" multiple accept="image/jpeg,image/png,image/gif,image/webp">
-              <div class="upload-icon">📷</div>
-              <p>Arrastra tus imágenes aquí o haz clic para seleccionar</p>
-              <span class="upload-hint">JPG, PNG, GIF, WebP — Máx 5MB cada una</span>
             </div>
-            <div class="preview-grid" id="previewGrid"></div>
+            <span class="photo-count" id="photoCount">Ninguna foto seleccionada</span>
+            <div class="photo-list" id="photoList"></div>
           </div>
           <button type="submit" class="btn-send">Enviar apartamento →</button>
         </form>

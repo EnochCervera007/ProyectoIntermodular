@@ -51,119 +51,44 @@ if (params.get('ok') === '1') {
   setTimeout(() => banner.remove(), 5000);
 }
 
-// ===== PREVISUALIZACIÓN DE MÚLTIPLES IMÁGENES =====
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('imagenes');
-const previewGrid = document.getElementById('previewGrid');
-let previewFiles = [];
+// ===== FOTOS: AÑADIR Y PREVISUALIZAR =====
+function setupPhotoUpload(inputId, listId, countId) {
+  const input = document.getElementById(inputId);
+  const list = document.getElementById(listId);
+  const count = document.getElementById(countId);
+  if (!input || !list || !count) return;
+  let files = [];
 
-if (uploadArea && fileInput && previewGrid) {
-  fileInput.addEventListener('change', () => {
-    const newFiles = Array.from(fileInput.files);
-    previewFiles = previewFiles.concat(newFiles);
-    renderPreviews();
+  input.addEventListener('change', () => {
+    files = files.concat(Array.from(input.files));
+    render();
   });
 
-  uploadArea.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-  });
-
-  uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-  });
-
-  uploadArea.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    if (e.dataTransfer.files.length) {
-      const newFiles = Array.from(e.dataTransfer.files);
-      previewFiles = previewFiles.concat(newFiles);
-      renderPreviews();
-    }
-  });
-
-  function renderPreviews() {
-    previewGrid.innerHTML = '';
-    previewFiles.forEach((file, index) => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const item = document.createElement('div');
-        item.className = 'preview-item';
-        item.innerHTML = `
-          <img src="${e.target.result}" alt="Foto ${index + 1}">
-          <button type="button" class="remove-img" data-index="${index}">✕</button>
-        `;
-        previewGrid.appendChild(item);
-
-        item.querySelector('.remove-img').addEventListener('click', () => {
-          previewFiles.splice(index, 1);
-          rebuildFileList();
-          renderPreviews();
+  function render() {
+    list.innerHTML = '';
+    count.textContent = files.length ? `${files.length} foto${files.length > 1 ? 's' : ''} seleccionada${files.length > 1 ? 's' : ''}` : 'Ninguna foto seleccionada';
+    files.forEach((file, i) => {
+      const r = new FileReader();
+      r.onload = e => {
+        const div = document.createElement('div');
+        div.className = 'photo-thumb';
+        div.innerHTML = `<img src="${e.target.result}"><button type="button" class="del" data-i="${i}">✕</button>`;
+        list.appendChild(div);
+        div.querySelector('.del').addEventListener('click', () => {
+          files.splice(i, 1);
+          rebuildInput();
+          render();
         });
       };
-      reader.readAsDataURL(file);
+      r.readAsDataURL(file);
     });
   }
 
-  function rebuildFileList() {
+  function rebuildInput() {
     const dt = new DataTransfer();
-    previewFiles.forEach(f => dt.items.add(f));
-    fileInput.files = dt.files;
+    files.forEach(f => dt.items.add(f));
+    input.files = dt.files;
   }
 }
 
-// Also handle the inline form on index.php
-const uploadAreaInline = document.querySelector('.guardar-form .upload-area');
-const fileInputInline = document.querySelector('.guardar-form input[type="file"][name="imagenes[]"]');
-const previewGridInline = document.querySelector('.guardar-form .preview-grid');
-let previewFilesInline = [];
-
-if (uploadAreaInline && fileInputInline && previewGridInline) {
-  const ua = uploadAreaInline, fi = fileInputInline, pg = previewGridInline;
-
-  fi.addEventListener('change', () => {
-    const newFiles = Array.from(fi.files);
-    previewFilesInline = previewFilesInline.concat(newFiles);
-    renderInlinePreviews();
-  });
-
-  ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('dragover'); });
-  ua.addEventListener('dragleave', () => { ua.classList.remove('dragover'); });
-  ua.addEventListener('drop', e => {
-    e.preventDefault();
-    ua.classList.remove('dragover');
-    if (e.dataTransfer.files.length) {
-      previewFilesInline = previewFilesInline.concat(Array.from(e.dataTransfer.files));
-      renderInlinePreviews();
-    }
-  });
-
-  function renderInlinePreviews() {
-    pg.innerHTML = '';
-    previewFilesInline.forEach((file, index) => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const item = document.createElement('div');
-        item.className = 'preview-item';
-        item.innerHTML = `
-          <img src="${e.target.result}" alt="Foto ${index + 1}">
-          <button type="button" class="remove-img" data-index="${index}">✕</button>
-        `;
-        pg.appendChild(item);
-        item.querySelector('.remove-img').addEventListener('click', () => {
-          previewFilesInline.splice(index, 1);
-          rebuildInlineFileList();
-          renderInlinePreviews();
-        });
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function rebuildInlineFileList() {
-    const dt = new DataTransfer();
-    previewFilesInline.forEach(f => dt.items.add(f));
-    fi.files = dt.files;
-  }
-}
+setupPhotoUpload('imagenes', 'photoList', 'photoCount');

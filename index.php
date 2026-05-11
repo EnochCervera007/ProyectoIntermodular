@@ -341,13 +341,12 @@ $user_name = $_SESSION['user_name'] ?? '';
             </div>
             <div class="form-group full">
               <label>Fotos del apartamento</label>
-              <div class="upload-area" id="uploadAreaInline">
-                <input type="file" id="imagenesInline" name="imagenes[]" multiple accept="image/jpeg,image/png,image/gif,image/webp">
-                <div class="upload-icon">📷</div>
-                <p>Arrastra tus imágenes aquí o haz clic para seleccionar</p>
-                <span class="upload-hint">JPG, PNG, GIF, WebP — Máx 5MB cada una</span>
+              <div class="add-photos-btn">
+                📷 Añadir fotos
+                <input type="file" id="imagenes" name="imagenes[]" multiple accept="image/jpeg,image/png,image/gif,image/webp">
               </div>
-              <div class="preview-grid" id="previewGridInline"></div>
+              <span class="photo-count" id="photoCount">Ninguna foto seleccionada</span>
+              <div class="photo-list" id="photoList"></div>
             </div>
             <button type="submit" class="btn-submit">Enviar mi apartamento →</button>
           </form>

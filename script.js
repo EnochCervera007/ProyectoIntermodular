@@ -51,36 +51,119 @@ if (params.get('ok') === '1') {
   setTimeout(() => banner.remove(), 5000);
 }
 
-// ===== PREVISUALIZACIÓN DE IMAGEN =====
-document.querySelectorAll('input[type="file"][name="imagen"]').forEach(input => {
-  const wrapper = input.closest('.form-group');
-  if (!wrapper) return;
-  const nameSpan = wrapper.querySelector('.file-input-name');
-  const preview = wrapper.querySelector('.image-preview');
-  const previewImg = wrapper.querySelector('#previewImg');
-  const removeBtn = wrapper.querySelector('#btnRemoveImg');
+// ===== PREVISUALIZACIÓN DE MÚLTIPLES IMÁGENES =====
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('imagenes');
+const previewGrid = document.getElementById('previewGrid');
+let previewFiles = [];
 
-  input.addEventListener('change', () => {
-    const file = input.files[0];
-    if (file) {
-      nameSpan.textContent = file.name;
-      const reader = new FileReader();
-      reader.onload = e => {
-        previewImg.src = e.target.result;
-        preview.style.display = 'inline-block';
-      };
-      reader.readAsDataURL(file);
-    } else {
-      nameSpan.textContent = 'Ningún archivo seleccionado';
-      preview.style.display = 'none';
+if (uploadArea && fileInput && previewGrid) {
+  fileInput.addEventListener('change', () => {
+    const newFiles = Array.from(fileInput.files);
+    previewFiles = previewFiles.concat(newFiles);
+    renderPreviews();
+  });
+
+  uploadArea.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  });
+
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+  });
+
+  uploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      const newFiles = Array.from(e.dataTransfer.files);
+      previewFiles = previewFiles.concat(newFiles);
+      renderPreviews();
     }
   });
 
-  if (removeBtn) {
-    removeBtn.addEventListener('click', () => {
-      input.value = '';
-      nameSpan.textContent = 'Ningún archivo seleccionado';
-      preview.style.display = 'none';
+  function renderPreviews() {
+    previewGrid.innerHTML = '';
+    previewFiles.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        item.innerHTML = `
+          <img src="${e.target.result}" alt="Foto ${index + 1}">
+          <button type="button" class="remove-img" data-index="${index}">✕</button>
+        `;
+        previewGrid.appendChild(item);
+
+        item.querySelector('.remove-img').addEventListener('click', () => {
+          previewFiles.splice(index, 1);
+          rebuildFileList();
+          renderPreviews();
+        });
+      };
+      reader.readAsDataURL(file);
     });
   }
-});
+
+  function rebuildFileList() {
+    const dt = new DataTransfer();
+    previewFiles.forEach(f => dt.items.add(f));
+    fileInput.files = dt.files;
+  }
+}
+
+// Also handle the inline form on index.php
+const uploadAreaInline = document.querySelector('.guardar-form .upload-area');
+const fileInputInline = document.querySelector('.guardar-form input[type="file"][name="imagenes[]"]');
+const previewGridInline = document.querySelector('.guardar-form .preview-grid');
+let previewFilesInline = [];
+
+if (uploadAreaInline && fileInputInline && previewGridInline) {
+  const ua = uploadAreaInline, fi = fileInputInline, pg = previewGridInline;
+
+  fi.addEventListener('change', () => {
+    const newFiles = Array.from(fi.files);
+    previewFilesInline = previewFilesInline.concat(newFiles);
+    renderInlinePreviews();
+  });
+
+  ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('dragover'); });
+  ua.addEventListener('dragleave', () => { ua.classList.remove('dragover'); });
+  ua.addEventListener('drop', e => {
+    e.preventDefault();
+    ua.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      previewFilesInline = previewFilesInline.concat(Array.from(e.dataTransfer.files));
+      renderInlinePreviews();
+    }
+  });
+
+  function renderInlinePreviews() {
+    pg.innerHTML = '';
+    previewFilesInline.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        item.innerHTML = `
+          <img src="${e.target.result}" alt="Foto ${index + 1}">
+          <button type="button" class="remove-img" data-index="${index}">✕</button>
+        `;
+        pg.appendChild(item);
+        item.querySelector('.remove-img').addEventListener('click', () => {
+          previewFilesInline.splice(index, 1);
+          rebuildInlineFileList();
+          renderInlinePreviews();
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function rebuildInlineFileList() {
+    const dt = new DataTransfer();
+    previewFilesInline.forEach(f => dt.items.add(f));
+    fi.files = dt.files;
+  }
+}

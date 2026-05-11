@@ -340,16 +340,14 @@ $user_name = $_SESSION['user_name'] ?? '';
               <input type="text" id="direccion" name="direccion" placeholder="Carrer de..., Barcelona" required/>
             </div>
             <div class="form-group full">
-              <label for="imagen">Foto del apartamento</label>
-              <div class="file-input-wrapper">
-                <input type="file" id="imagen" name="imagen" accept="image/jpeg,image/png,image/gif,image/webp">
-                <label for="imagen" class="file-input-label">📷 Seleccionar imagen</label>
-                <span class="file-input-name">Ningún archivo seleccionado</span>
+              <label>Fotos del apartamento</label>
+              <div class="upload-area" id="uploadAreaInline">
+                <input type="file" id="imagenesInline" name="imagenes[]" multiple accept="image/jpeg,image/png,image/gif,image/webp">
+                <div class="upload-icon">📷</div>
+                <p>Arrastra tus imágenes aquí o haz clic para seleccionar</p>
+                <span class="upload-hint">JPG, PNG, GIF, WebP — Máx 5MB cada una</span>
               </div>
-              <div class="image-preview" id="imagePreview" style="display:none;">
-                <img id="previewImg" src="#" alt="Preview">
-                <button type="button" class="btn-remove-img" id="btnRemoveImg">✕ Eliminar</button>
-              </div>
+              <div class="preview-grid" id="previewGridInline"></div>
             </div>
             <button type="submit" class="btn-submit">Enviar mi apartamento →</button>
           </form>

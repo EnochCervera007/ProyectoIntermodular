@@ -348,16 +348,20 @@ ul { list-style: none; }
 
 /* ===== FOOTER ===== */
 .footer { background: var(--negro); color: var(--blanco); padding: 80px 0 0; text-align: center; }
-.footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 60px; justify-items: center; }
+.footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 60px; justify-items: center; align-items: start; }
 .footer-brand .logo { font-size: 1.4rem; }
 .footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin: 16px 0 20px; max-width: 240px; }
-.footer-social { display: flex; gap: 12px; }
+.footer-contact .contact-list { margin-bottom: 24px; }
+.footer-contact .contact-list li { margin-bottom: 8px; }
+.footer-contact .contact-list a { font-size: 0.95rem; color: rgba(255,255,255,0.7); transition: var(--transicion); }
+.footer-contact .contact-list a:hover { color: var(--rojo-claro); }
+.footer-social { display: flex; gap: 10px; justify-content: center; }
 .footer-social a {
   font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 50px;
-  transition: var(--transicion);
+  background: rgba(255,255,255,0.08); padding: 8px 18px; border-radius: 50px;
+  transition: var(--transicion); letter-spacing: 0.3px;
 }
-.footer-social a:hover { background: var(--rojo); color: var(--blanco); }
+.footer-social a:hover { background: var(--rojo); color: var(--blanco); transform: translateY(-2px); }
 .footer-col h4 {
   font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
   color: var(--blanco); margin-bottom: 20px;

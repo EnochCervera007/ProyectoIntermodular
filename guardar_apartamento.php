@@ -80,64 +80,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    body { background: #0a0a0a; }
+    body { background: #fff; }
     .form-page { padding: 100px 20px 60px; min-height: 100vh; }
     .form-container { max-width: 800px; margin: 0 auto; }
     .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
     .btn-back {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 24px; background: transparent; border: 1px solid #333;
-      border-radius: 8px; color: #888; font-size: 0.9rem; text-decoration: none;
+      padding: 12px 24px; background: transparent; border: 1px solid #ddd;
+      border-radius: 8px; color: #333; font-size: 0.9rem; text-decoration: none;
       transition: all 0.2s;
     }
-    .btn-back:hover { background: #1a1a1a; color: #fff; border-color: #444; }
+    .btn-back:hover { background: #f5f5f5; color: #000; border-color: #ccc; }
     .form-card {
-      background: #141414; border: 1px solid #222; border-radius: 16px; padding: 40px;
+      background: #f8f8f8; border: 1px solid #ddd; border-radius: 16px; padding: 40px;
     }
-    .form-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: #fff; margin-bottom: 8px; }
-    .form-title span { color: #c9a55c; }
+    .form-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: #000; margin-bottom: 8px; }
+    .form-title span { color: #C8102E; }
     .form-subtitle { color: #666; margin-bottom: 32px; }
-    .user-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #1a1a1a; border-radius: 8px; margin-bottom: 24px; }
-    .user-bar span { color: #888; font-size: 0.9rem; }
-    .user-bar a { color: #c9a55c; text-decoration: none; font-size: 0.9rem; }
+    .user-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #fff; border: 1px solid #eee; border-radius: 8px; margin-bottom: 24px; }
+    .user-bar span { color: #666; font-size: 0.9rem; }
+    .user-bar a { color: #C8102E; text-decoration: none; font-size: 0.9rem; }
     .user-bar a:hover { text-decoration: underline; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; color: #888; font-size: 0.85rem; margin-bottom: 8px; }
+    .form-group label { display: block; color: #444; font-size: 0.85rem; margin-bottom: 8px; }
     .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 14px 16px; background: #0d0d0d; border: 1px solid #222;
-      border-radius: 8px; color: #fff; font-size: 1rem; font-family: inherit;
+      width: 100%; padding: 14px 16px; background: #fff; border: 1px solid #ddd;
+      border-radius: 8px; color: #000; font-size: 1rem; font-family: inherit;
     }
-    .form-group select option { background: #1a1a1a; }
+    .form-group select option { background: #fff; }
     .form-group textarea { min-height: 100px; resize: vertical; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      outline: none; border-color: #c9a55c;
+      outline: none; border-color: #C8102E;
     }
     .form-group.full { grid-column: 1 / -1; }
     .btn-send {
-      width: 100%; padding: 16px; background: linear-gradient(135deg, #c9a55c, #a3843e);
-      border: none; border-radius: 8px; color: #000; font-size: 1rem; font-weight: 600;
+      width: 100%; padding: 16px; background: #C8102E;
+      border: none; border-radius: 8px; color: #fff; font-size: 1rem; font-weight: 600;
       cursor: pointer; transition: transform 0.2s;
     }
-    .btn-send:hover { transform: translateY(-2px); }
+    .btn-send:hover { transform: translateY(-2px); background: #a00d25; }
     .alert { padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
-    .alert.success { background: #152a15; border: 1px solid #204a20; color: #5e5; }
-    .alert.error { background: #2a1515; border: 1px solid #4a2020; color: #e55; }
+    .alert.success { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
+    .alert.error { background: #ffebee; border: 1px solid #ffcdd2; color: #c62828; }
     .photo-box {
-      border: 2px dashed #333; border-radius: 12px; padding: 32px 20px;
+      border: 2px dashed #ddd; border-radius: 12px; padding: 32px 20px;
       text-align: center; cursor: pointer; transition: all 0.2s;
-      background: #0d0d0d; position: relative;
+      background: #fff; position: relative;
     }
-    .photo-box:hover { border-color: #c9a55c; background: #111; }
+    .photo-box:hover { border-color: #C8102E; background: #fafafa; }
     .photo-box input[type="file"] {
       position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer;
     }
     .photo-box .icon { font-size: 2.2rem; margin-bottom: 8px; }
-    .photo-box p { color: #888; font-size: 0.95rem; margin: 0; }
+    .photo-box p { color: #666; font-size: 0.95rem; margin: 0; }
     .photo-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .photo-strip .thumb {
       position: relative; width: 64px; height: 64px; border-radius: 6px;
-      overflow: hidden; border: 1px solid #333;
+      overflow: hidden; border: 1px solid #ddd;
     }
     .photo-strip .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .photo-strip .thumb .x {
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       background: rgba(0,0,0,0.7); color: #fff; border: none;
       font-size: 0.6rem; cursor: pointer; line-height: 18px; text-align: center;
     }
-    .photo-strip .thumb .x:hover { background: #c9a55c; color: #000; }
+    .photo-strip .thumb .x:hover { background: #C8102E; color: #fff; }
     .photo-info { color: #555; font-size: 0.8rem; margin-top: 6px; }
   </style>
 </head>

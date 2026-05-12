@@ -47,9 +47,10 @@ ul { list-style: none; }
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem; font-weight: 900;
   color: var(--negro); letter-spacing: -0.5px;
+  margin-right: 48px;
 }
 .logo span { color: var(--rojo); }
-.nav-links { display: flex; gap: 36px; margin-left: 48px; margin-right: auto; }
+.nav-links { display: flex; gap: 36px; margin-left: 0; margin-right: auto; }
 .nav-buttons {
   display: flex; gap: 12px; margin-left: auto;
 }

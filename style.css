@@ -49,7 +49,7 @@ ul { list-style: none; }
   color: var(--negro); letter-spacing: -0.5px;
 }
 .logo span { color: var(--rojo); }
-.nav-links { display: flex; gap: 64px; margin-left: 60px; margin-right: auto; }
+.nav-links { display: flex; gap: 36px; margin-left: 48px; margin-right: auto; }
 .nav-buttons {
   display: flex; gap: 12px; margin-left: auto;
 }

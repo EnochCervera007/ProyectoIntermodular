@@ -36,7 +36,7 @@ ul { list-style: none; }
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
   border-bottom: 2px solid var(--rojo-claro);
-  padding: 0 24px 0 8px;
+  padding: 0 24px 0 4px;
 }
 .nav-inner {
   max-width: 1200px; margin: 0 auto;

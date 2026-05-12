@@ -36,7 +36,7 @@ ul { list-style: none; }
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
   border-bottom: 2px solid var(--rojo-claro);
-  padding: 0 24px 0 0;
+  padding: 0 24px;
 }
 .nav-inner {
   max-width: 1200px; margin: 0 auto;
@@ -48,6 +48,7 @@ ul { list-style: none; }
   font-size: 1.5rem; font-weight: 900;
   color: var(--negro); letter-spacing: -0.5px;
   margin-right: 48px;
+  margin-left: -4px;
 }
 .logo span { color: var(--rojo); }
 .nav-links { display: flex; gap: 36px; margin-left: 0; margin-right: auto; }

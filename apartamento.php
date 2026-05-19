@@ -7,7 +7,6 @@ $is_admin = $_SESSION['admin'] ?? 0;
 $user_name = $_SESSION['user_name'] ?? '';
 $id = intval($_GET['id'] ?? 1);
 
-// Cargar comentarios de la base de datos
 $stmt_comments = $conn->prepare("SELECT * FROM comentarios WHERE apartamento_id = ? ORDER BY fecha DESC");
 $stmt_comments->bind_param("i", $id);
 $stmt_comments->execute();
@@ -17,7 +16,6 @@ while ($row = $result_comments->fetch_assoc()) {
     $comentarios[] = $row;
 }
 
-// Procesar nuevo comentario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && $logged_in) {
     $rating = floatval($_POST['rating']);
     $comentario = trim($_POST['comentario']);
@@ -270,7 +268,6 @@ $apt = $apartamentos[$id] ?? $apartamentos[1];
          </div>
        </div>
        
-       <!-- COMENTARIOS -->
        <div class="comentarios-section" style="margin-top: 40px; padding-top: 40px; border-top: 1px solid #eee;">
          <h2 style="font-size: 1.8rem; color: #000; margin-bottom: 24px;">Valoraciones y comentarios</h2>
          

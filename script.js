@@ -1,4 +1,3 @@
-// ===== FILTROS DE APARTAMENTOS =====
 const filtros = document.querySelectorAll('.filtro');
 const cards = document.querySelectorAll('.apt-card');
 
@@ -19,7 +18,6 @@ filtros.forEach(btn => {
   });
 });
 
-// ===== BOTÓN FAVORITO =====
 document.querySelectorAll('.btn-fav').forEach(btn => {
   btn.addEventListener('click', () => {
     btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
@@ -28,13 +26,11 @@ document.querySelectorAll('.btn-fav').forEach(btn => {
   });
 });
 
-// ===== NAVBAR SCROLL SHADOW =====
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
   navbar.style.boxShadow = window.scrollY > 10 ? '0 4px 24px rgba(0,0,0,0.08)' : '';
 });
 
-// ===== MENSAJE DE ÉXITO DEL FORMULARIO (si PHP redirige con ?ok=1) =====
 const params = new URLSearchParams(window.location.search);
 if (params.get('ok') === '1') {
   const banner = document.createElement('div');
@@ -51,7 +47,6 @@ if (params.get('ok') === '1') {
   setTimeout(() => banner.remove(), 5000);
 }
 
-// ===== FOTOS: AÑADIR Y PREVISUALIZAR =====
 ;(function() {
   function setup(inputId, infoId, stripId) {
     const input = document.getElementById(inputId);

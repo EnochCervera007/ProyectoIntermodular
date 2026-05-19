@@ -14,7 +14,7 @@ function enviarEmail($email_destino, $nombre_destino, $apartamento, $barrio, $ch
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'apbarcelonaprojecto@gmail.com';
-        $mail->Password   = ' proyecto2024';  
+        $mail->Password   = 'proyecto2024';  
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
         

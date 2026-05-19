@@ -14,7 +14,6 @@ $user_name = $_SESSION['user_name'] ?? '';
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-inner">
       <a href="#" class="logo">Ap<span>Barcelona</span></a>
@@ -38,7 +37,6 @@ $user_name = $_SESSION['user_name'] ?? '';
     </div>
   </nav>
 
-  <!-- HERO -->
   <header class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
@@ -57,7 +55,6 @@ $user_name = $_SESSION['user_name'] ?? '';
     </div>
   </header>
 
-  <!-- BARRIOS DESTACADOS -->
   <section class="barrios">
     <div class="container">
       <h2 class="section-title">Barrios <span>populares</span></h2>
@@ -82,7 +79,6 @@ $user_name = $_SESSION['user_name'] ?? '';
     </div>
   </section>
 
-  <!-- APARTAMENTOS DESTACADOS -->
   <section class="apartamentos" id="apartamentos">
     <div class="container">
       <div class="section-header">
@@ -239,7 +235,6 @@ $user_name = $_SESSION['user_name'] ?? '';
     </div>
   </section>
 
-  <!-- POR QUÉ ELEGIRNOS -->
   <section class="porque" id="nosotros">
     <div class="container">
       <h2 class="section-title">¿Por qué <span>elegirnos?</span></h2>
@@ -268,7 +263,6 @@ $user_name = $_SESSION['user_name'] ?? '';
     </div>
   </section>
 
-  <!-- FORMULARIO GUARDAR APARTAMENTO (conectado a PHP) -->
   <section class="guardar-form" id="guardar">
     <div class="container">
       <div class="form-wrapper">
@@ -356,7 +350,6 @@ $user_name = $_SESSION['user_name'] ?? '';
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer" id="contacto">
     <div class="container">
       <div class="footer-grid">

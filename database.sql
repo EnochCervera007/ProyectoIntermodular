@@ -30,52 +30,6 @@ CREATE TABLE IF NOT EXISTS apartamentos (
     FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS reservas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    apartamento_id INT NOT NULL,
-    checkin DATE NOT NULL,
-    checkout DATE NOT NULL,
-    noches INT NOT NULL,
-    total DECIMAL(10,2) NOT NULL,
-    estado VARCHAR(20) DEFAULT 'pendiente',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS reservas_eliminadas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    reserva_id INT NOT NULL,
-    user_id INT NOT NULL,
-    apartamento_id INT NOT NULL,
-    checkin DATE,
-    checkout DATE,
-    noches INT,
-    total DECIMAL(10,2),
-    estado VARCHAR(20),
-    eliminado_por INT,
-    fecha_eliminacion DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS comentarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    apartamento_id INT NOT NULL,
-    user_id INT NOT NULL,
-    user_name VARCHAR(100) NOT NULL,
-    rating DECIMAL(2,1) NOT NULL,
-    comentario TEXT NOT NULL,
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (apartamento_id) REFERENCES apartamentos(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS comentarios_eliminados (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    comentario_id_original INT NOT NULL,
-    apartamento_id INT NOT NULL,
-    user_id INT NOT NULL,
-    user_name VARCHAR(100),
-    rating DECIMAL(2,1),
-    comentario TEXT,
-    eliminado_por INT,
-    fecha_eliminacion DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO usuarios (nombre, email, password, admin, created_at) VALUES
+('Admin', 'admin@apbarcelona.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, NOW())
+ON DUPLICATE KEY UPDATE id=id;

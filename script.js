@@ -26,16 +26,6 @@ document.querySelectorAll('.btn-fav').forEach(btn => {
   });
 });
 
-function toggleAdminDD(e) {
-  e.stopPropagation();
-  const dd = document.querySelector('.dd-content');
-  const allDD = document.querySelectorAll('.dd-content.show');
-  allDD.forEach(d => { if (d !== dd) d.classList.remove('show'); });
-  dd.classList.toggle('show');
-}
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dd-content.show').forEach(d => d.classList.remove('show'));
-});
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
   navbar.style.boxShadow = window.scrollY > 10 ? '0 4px 24px rgba(0,0,0,0.08)' : '';

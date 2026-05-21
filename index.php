@@ -28,12 +28,7 @@ $is_admin = $_SESSION['admin'] ?? 0;
           <a href="guardar_apartamento.php" class="btn-nav">Publicar</a>
           <a href="mis_reservas.php" class="btn-nav">Mis Reservas</a>
           <?php if ($is_admin): ?>
-          <div class="admin-dd">
-            <button class="btn-nav btn-admin" onclick="toggleAdminDD(event)">ADMIN ▾</button>
-            <div class="dd-content">
-              <a href="admin.php">Panel Admin</a>
-            </div>
-          </div>
+          <a href="admin.php" class="btn-nav btn-admin">ADMIN</a>
           <?php endif; ?>
           <a href="logout.php" class="btn-nav"><?php echo htmlspecialchars($user_name); ?></a>
         </div>

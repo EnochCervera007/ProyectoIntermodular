@@ -34,7 +34,7 @@ REM ============================================================================
 REM 1. COPIA DE BASE DE DATOS
 REM ============================================================================
 echo [1] Ejecutando mysqldump...
-"%MYSQL_BIN%\mysqldump.exe" -u %DB_USER% %DB_NAME% > "%BACKUP_DIR%\db\db_%TIMESTAMP%.sql" 2>> "%LOG_FILE%"
+"%MYSQL_BIN%\mysqldump.exe" --protocol=TCP --host=127.0.0.1 --port=3306 -u %DB_USER% %DB_NAME% > "%BACKUP_DIR%\db\db_%TIMESTAMP%.sql" 2>> "%LOG_FILE%"
 
 if %errorlevel%==0 (
     echo [OK] Base de datos guardada: db_%TIMESTAMP%.sql >> "%LOG_FILE%"

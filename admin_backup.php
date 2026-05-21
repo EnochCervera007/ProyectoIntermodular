@@ -29,11 +29,11 @@ if (isset($_POST['restaurar']) && isset($_POST['archivo_db'])) {
     $mysql_bin = 'C:\xampp\mysql\bin';
 
     if (file_exists($db_path)) {
-        $cmd = "\"$mysql_bin\\mysql.exe\" -u root -e \"DROP DATABASE IF EXISTS apbarcelona;\" 2>&1";
+        $cmd = "\"$mysql_bin\\mysql.exe\" --protocol=TCP --host=127.0.0.1 --port=3306 -u root -e \"DROP DATABASE IF EXISTS apbarcelona;\" 2>&1";
         shell_exec($cmd);
-        $cmd = "\"$mysql_bin\\mysql.exe\" -u root -e \"CREATE DATABASE apbarcelona CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" 2>&1";
+        $cmd = "\"$mysql_bin\\mysql.exe\" --protocol=TCP --host=127.0.0.1 --port=3306 -u root -e \"CREATE DATABASE apbarcelona CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" 2>&1";
         shell_exec($cmd);
-        $cmd = "\"$mysql_bin\\mysql.exe\" -u root apbarcelona < \"$db_path\" 2>&1";
+        $cmd = "\"$mysql_bin\\mysql.exe\" --protocol=TCP --host=127.0.0.1 --port=3306 -u root apbarcelona < \"$db_path\" 2>&1";
         shell_exec($cmd);
         $mensaje = '<div class="msg ok">Base de datos restaurada desde: ' . htmlspecialchars($db_file) . '</div>';
     } else {

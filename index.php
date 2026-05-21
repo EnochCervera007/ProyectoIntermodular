@@ -2,6 +2,7 @@
 session_start();
 $logged_in = isset($_SESSION['user_id']);
 $user_name = $_SESSION['user_name'] ?? '';
+$is_admin = $_SESSION['admin'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,6 +27,14 @@ $user_name = $_SESSION['user_name'] ?? '';
         <div class="nav-buttons">
           <a href="guardar_apartamento.php" class="btn-nav">Publicar</a>
           <a href="mis_reservas.php" class="btn-nav">Mis Reservas</a>
+          <?php if ($is_admin): ?>
+          <div class="admin-dd">
+            <button class="btn-nav btn-admin" onclick="toggleAdminDD(event)">ADMIN ▾</button>
+            <div class="dd-content">
+              <a href="admin.php">Panel Admin</a>
+            </div>
+          </div>
+          <?php endif; ?>
           <a href="logout.php" class="btn-nav"><?php echo htmlspecialchars($user_name); ?></a>
         </div>
       <?php else: ?>

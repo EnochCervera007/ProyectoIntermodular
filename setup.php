@@ -48,7 +48,43 @@ try {
     $demo = $stmt->get_result()->fetch_assoc();
     $demo_id = $demo['id'];
 
-    // 5. Insertar los 6 apartamentos
+    // 5. Crear tablas faltantes
+    $conn->query("CREATE TABLE IF NOT EXISTS comentarios (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        apartamento_id INT NOT NULL,
+        user_id INT NOT NULL,
+        user_name VARCHAR(100) NOT NULL,
+        rating DECIMAL(2,1) NOT NULL,
+        comentario TEXT NOT NULL,
+        fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (apartamento_id) REFERENCES apartamentos(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+    $conn->query("CREATE TABLE IF NOT EXISTS comentarios_eliminados (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        comentario_id_original INT NOT NULL,
+        apartamento_id INT NOT NULL,
+        user_id INT NOT NULL,
+        user_name VARCHAR(100),
+        rating DECIMAL(2,1),
+        comentario TEXT,
+        eliminado_por INT,
+        fecha_eliminacion DATETIME DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+    $conn->query("CREATE TABLE IF NOT EXISTS reservas (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        apartamento_id INT NOT NULL,
+        checkin DATE NOT NULL,
+        checkout DATE NOT NULL,
+        noches INT NOT NULL,
+        total DECIMAL(10,2) NOT NULL,
+        estado VARCHAR(20) DEFAULT 'pendiente',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+    $mensajes[] = "Tablas creadas";
+
+    // 6. Insertar los 6 apartamentos
     $lista = [
         ['Piso Luminoso Barceloneta', 'Barceloneta', 95, '2'],
         ['Loft Moderno Eixample', 'Eixample Dret', 120, '1'],
@@ -72,6 +108,56 @@ try {
             $stmt->execute();
             $mensajes[] = "Apartamento '{$a[0]}' creado";
         }
+    }
+
+    // 6. Insertar comentarios de muestra
+    $comentarios = [
+        ['Piso Luminoso Barceloneta', 5, 'Excelente ubicación, a un paso de la playa. El apartamento es muy acogedor y tiene todo lo necesario. La dueña fue muy amable. Volveremos sin duda!'],
+        ['Piso Luminoso Barceloneta', 4, 'Muy buen apartamento, bien equipado. La única pega es que se oye algo de ruido por la noche, pero por lo demás perfecto.'],
+        ['Piso Luminoso Barceloneta', 5, 'Todo genial, limpieza impecable y decoración bonita. La cama muy cómoda. Recomendado al 100%.'],
+        ['Loft Moderno Eixample', 5, 'El loft es precioso, ideal para parejas. Muy bien situado, cerca de todo. La decoración es espectacular.'],
+        ['Loft Moderno Eixample', 4, 'Me encantó el estilo moderno del loft. Bien comunicado y con todos los servicios. Repetiría.'],
+        ['Loft Moderno Eixample', 3, 'Bonito pero algo pequeño para dos personas. La ubicación es buena.'],
+        ['Penthouse con Vistas al Mar', 5, 'Las vistas son increíbles, el mejor alojamiento en el que he estado. El jacuzzi en la terraza es un plus.'],
+        ['Penthouse con Vistas al Mar', 5, 'Espectacular. Merece cada euro. El atardecer desde la terraza es impresionante.'],
+        ['Penthouse con Vistas al Mar', 4, 'Muy lujoso y bien cuidado. El servicio de atención fue excelente.'],
+        ['Apartamento El Born', 5, 'El Born es el mejor barrio de Barcelona y este apartamento está en el corazón. Muy recomendable.'],
+        ['Apartamento El Born', 4, 'Apartamento encantador, bien decorado. Cerca de restaurantes y tiendas.'],
+        ['Apartamento El Born', 5, 'Nos encantó la zona, muy auténtica. El apartamento cómodo y limpio.'],
+        ['Estudio Vista Mar Poblenou', 4, 'Perfecto para una escapada tranquila. Las vistas al mar son relajantes.'],
+        ['Estudio Vista Mar Poblenou', 5, 'Relación calidad-precio excelente. Muy acogedor y limpio.'],
+        ['Estudio Vista Mar Poblenou', 3, 'Estudio correcto para lo que pagas. La zona está un poco alejada del centro.'],
+        ['Piso Clásico Gràcia', 5, 'El piso es precioso, con techos altos y mucha luz. Gràcia es un barrio con mucho encanto.'],
+        ['Piso Clásico Gràcia', 4, 'Muy auténtico y bien situado. La plaza del Sol está cerca y hay muchos bares.'],
+        ['Piso Clásico Gràcia', 5, 'Volveremos! El apartamento es ideal para grupos, amplio y bien equipado.']
+    ];
+
+    $stmt = $conn->prepare("SELECT id, nombre FROM apartamentos");
+    $stmt->execute();
+    $apts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $apt_map = [];
+    foreach ($apts as $apt) {
+        $apt_map[$apt['nombre']] = $apt['id'];
+    }
+
+    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $demo_email);
+    $stmt->execute();
+    $demo_user = $stmt->get_result()->fetch_assoc();
+
+    $nombres = ['María García', 'Carlos López', 'Ana Martínez', 'Pablo Sánchez', 'Laura Fernández', 'David Rodríguez', 'Sara Pérez', 'Jorge Gómez', 'Elena Díaz', 'Miguel Ángel'];
+    $insert_comment = $conn->prepare("INSERT INTO comentarios (apartamento_id, user_id, user_name, rating, comentario) VALUES (?, ?, ?, ?, ?)");
+
+    foreach ($comentarios as $c) {
+        $nombre_apt = $c[0];
+        $rating = $c[1];
+        $texto = $c[2];
+        $apt_id = $apt_map[$nombre_apt] ?? null;
+        if (!$apt_id) continue;
+        $user_name = $nombres[array_rand($nombres)];
+        $insert_comment->bind_param("iisds", $apt_id, $demo_user['id'], $user_name, $rating, $texto);
+        $insert_comment->execute();
+        $mensajes[] = "Comentario de {$user_name} en '{$nombre_apt}'";
     }
 
 } catch (Exception $e) {

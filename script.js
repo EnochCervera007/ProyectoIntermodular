@@ -31,6 +31,17 @@ window.addEventListener('scroll', () => {
   navbar.style.boxShadow = window.scrollY > 10 ? '0 4px 24px rgba(0,0,0,0.08)' : '';
 });
 
+function toggleProfile(e) {
+  e.stopPropagation();
+  const all = document.querySelectorAll('.dd-menu.open');
+  const menu = e.currentTarget.nextElementSibling;
+  all.forEach(d => { if (d !== menu) d.classList.remove('open'); });
+  menu.classList.toggle('open');
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.dd-menu.open').forEach(d => d.classList.remove('open'));
+});
+
 const params = new URLSearchParams(window.location.search);
 if (params.get('ok') === '1') {
   const banner = document.createElement('div');

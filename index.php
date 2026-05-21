@@ -30,7 +30,15 @@ $is_admin = $_SESSION['admin'] ?? 0;
           <?php if ($is_admin): ?>
           <a href="admin.php" class="btn-nav btn-admin">ADMIN</a>
           <?php endif; ?>
-          <a href="logout.php" class="btn-nav"><?php echo htmlspecialchars($user_name); ?></a>
+          <div class="profile-dd">
+            <button class="btn-nav btn-profile" onclick="toggleProfile(event)"><?php echo htmlspecialchars($user_name); ?> ▾</button>
+            <div class="dd-menu">
+              <a href="admin.php">Mi Perfil</a>
+              <a href="admin_backup.php">Configuración</a>
+              <div class="dd-divider"></div>
+              <a href="logout.php">Cerrar Sesión</a>
+            </div>
+          </div>
         </div>
       <?php else: ?>
         <div class="nav-buttons">

@@ -30,7 +30,6 @@ $is_admin = $_SESSION['admin'] ?? 0;
           <?php if ($is_admin): ?>
           <a href="admin.php" class="btn-nav btn-admin">ADMIN</a>
           <?php endif; ?>
-          <a href="admin.php" class="btn-nav"><?php echo htmlspecialchars($user_name); ?></a>
         </div>
       <?php else: ?>
         <div class="nav-buttons">

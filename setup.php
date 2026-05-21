@@ -113,6 +113,19 @@ try {
     // 6. Eliminar comentarios anteriores y volver a insertar
     $conn->query("DELETE FROM comentarios WHERE apartamento_id IN (SELECT id FROM apartamentos)");
 
+    $stmt = $conn->prepare("SELECT id, nombre FROM apartamentos");
+    $stmt->execute();
+    $apts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $apt_map = [];
+    foreach ($apts as $apt) {
+        $apt_map[$apt['nombre']] = $apt['id'];
+    }
+
+    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $demo_email);
+    $stmt->execute();
+    $demo_user = $stmt->get_result()->fetch_assoc();
+
     $comentarios = [
         // Piso Luminoso Barceloneta
         ['Piso Luminoso Barceloneta', 'Carlos López', 5, 'Excelente ubicación, a un paso de la playa. El apartamento es muy acogedor y tiene todo lo necesario. La dueña fue muy amable. Volveremos sin duda!'],

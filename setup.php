@@ -110,51 +110,45 @@ try {
         }
     }
 
-    // 6. Insertar comentarios de muestra
+    // 6. Eliminar comentarios anteriores y volver a insertar
+    $conn->query("DELETE FROM comentarios WHERE apartamento_id IN (SELECT id FROM apartamentos)");
+
     $comentarios = [
-        ['Piso Luminoso Barceloneta', 5, 'Excelente ubicación, a un paso de la playa. El apartamento es muy acogedor y tiene todo lo necesario. La dueña fue muy amable. Volveremos sin duda!'],
-        ['Piso Luminoso Barceloneta', 4, 'Muy buen apartamento, bien equipado. La única pega es que se oye algo de ruido por la noche, pero por lo demás perfecto.'],
-        ['Piso Luminoso Barceloneta', 5, 'Todo genial, limpieza impecable y decoración bonita. La cama muy cómoda. Recomendado al 100%.'],
-        ['Loft Moderno Eixample', 5, 'El loft es precioso, ideal para parejas. Muy bien situado, cerca de todo. La decoración es espectacular.'],
-        ['Loft Moderno Eixample', 4, 'Me encantó el estilo moderno del loft. Bien comunicado y con todos los servicios. Repetiría.'],
-        ['Loft Moderno Eixample', 3, 'Bonito pero algo pequeño para dos personas. La ubicación es buena.'],
-        ['Penthouse con Vistas al Mar', 5, 'Las vistas son increíbles, el mejor alojamiento en el que he estado. El jacuzzi en la terraza es un plus.'],
-        ['Penthouse con Vistas al Mar', 5, 'Espectacular. Merece cada euro. El atardecer desde la terraza es impresionante.'],
-        ['Penthouse con Vistas al Mar', 4, 'Muy lujoso y bien cuidado. El servicio de atención fue excelente.'],
-        ['Apartamento El Born', 5, 'El Born es el mejor barrio de Barcelona y este apartamento está en el corazón. Muy recomendable.'],
-        ['Apartamento El Born', 4, 'Apartamento encantador, bien decorado. Cerca de restaurantes y tiendas.'],
-        ['Apartamento El Born', 5, 'Nos encantó la zona, muy auténtica. El apartamento cómodo y limpio.'],
-        ['Estudio Vista Mar Poblenou', 4, 'Perfecto para una escapada tranquila. Las vistas al mar son relajantes.'],
-        ['Estudio Vista Mar Poblenou', 5, 'Relación calidad-precio excelente. Muy acogedor y limpio.'],
-        ['Estudio Vista Mar Poblenou', 3, 'Estudio correcto para lo que pagas. La zona está un poco alejada del centro.'],
-        ['Piso Clásico Gràcia', 5, 'El piso es precioso, con techos altos y mucha luz. Gràcia es un barrio con mucho encanto.'],
-        ['Piso Clásico Gràcia', 4, 'Muy auténtico y bien situado. La plaza del Sol está cerca y hay muchos bares.'],
-        ['Piso Clásico Gràcia', 5, 'Volveremos! El apartamento es ideal para grupos, amplio y bien equipado.']
+        // Piso Luminoso Barceloneta
+        ['Piso Luminoso Barceloneta', 'Carlos López', 5, 'Excelente ubicación, a un paso de la playa. El apartamento es muy acogedor y tiene todo lo necesario. La dueña fue muy amable. Volveremos sin duda!'],
+        ['Piso Luminoso Barceloneta', 'María García', 4, 'Muy buen apartamento, bien equipado. La única pega es que se oye algo de ruido por la noche, pero por lo demás perfecto.'],
+        ['Piso Luminoso Barceloneta', 'Pedro Ruiz', 5, 'Todo genial, limpieza impecable y decoración bonita. La cama muy cómoda. Recomendado al 100%.'],
+        // Loft Moderno Eixample
+        ['Loft Moderno Eixample', 'Ana Martínez', 5, 'El loft es precioso, ideal para parejas. Muy bien situado, cerca de todo. La decoración es espectacular.'],
+        ['Loft Moderno Eixample', 'Javier Sánchez', 4, 'Me encantó el estilo moderno del loft. Bien comunicado y con todos los servicios. Repetiría.'],
+        ['Loft Moderno Eixample', 'Laura Fernández', 3, 'Bonito pero algo pequeño para dos personas. La ubicación es buena.'],
+        // Penthouse con Vistas al Mar
+        ['Penthouse con Vistas al Mar', 'David Rodríguez', 5, 'Las vistas son increíbles, el mejor alojamiento en el que he estado. El jacuzzi en la terraza es un plus.'],
+        ['Penthouse con Vistas al Mar', 'Sara Pérez', 5, 'Espectacular. Merece cada euro. El atardecer desde la terraza es impresionante.'],
+        ['Penthouse con Vistas al Mar', 'Marta López', 4, 'Muy lujoso y bien cuidado. El servicio de atención fue excelente.'],
+        // Apartamento El Born
+        ['Apartamento El Born', 'Pablo Sánchez', 5, 'El Born es el mejor barrio de Barcelona y este apartamento está en el corazón. Muy recomendable.'],
+        ['Apartamento El Born', 'Elena Díaz', 4, 'Apartamento encantador, bien decorado. Cerca de restaurantes y tiendas.'],
+        ['Apartamento El Born', 'Miguel Ángel', 5, 'Nos encantó la zona, muy auténtica. El apartamento cómodo y limpio.'],
+        // Estudio Vista Mar Poblenou
+        ['Estudio Vista Mar Poblenou', 'Jorge Gómez', 4, 'Perfecto para una escapada tranquila. Las vistas al mar son relajantes.'],
+        ['Estudio Vista Mar Poblenou', 'Carmen Ruiz', 5, 'Relación calidad-precio excelente. Muy acogedor y limpio.'],
+        ['Estudio Vista Mar Poblenou', 'Raúl Torres', 3, 'Estudio correcto para lo que pagas. La zona está un poco alejada del centro.'],
+        // Piso Clásico Gràcia
+        ['Piso Clásico Gràcia', 'Sofía Navarro', 5, 'El piso es precioso, con techos altos y mucha luz. Gràcia es un barrio con mucho encanto.'],
+        ['Piso Clásico Gràcia', 'Andrés Martín', 4, 'Muy auténtico y bien situado. La plaza del Sol está cerca y hay muchos bares.'],
+        ['Piso Clásico Gràcia', 'Isabel Ferrer', 5, 'Volveremos! El apartamento es ideal para grupos, amplio y bien equipado.']
     ];
 
-    $stmt = $conn->prepare("SELECT id, nombre FROM apartamentos");
-    $stmt->execute();
-    $apts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $apt_map = [];
-    foreach ($apts as $apt) {
-        $apt_map[$apt['nombre']] = $apt['id'];
-    }
-
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $demo_email);
-    $stmt->execute();
-    $demo_user = $stmt->get_result()->fetch_assoc();
-
-    $nombres = ['María García', 'Carlos López', 'Ana Martínez', 'Pablo Sánchez', 'Laura Fernández', 'David Rodríguez', 'Sara Pérez', 'Jorge Gómez', 'Elena Díaz', 'Miguel Ángel'];
     $insert_comment = $conn->prepare("INSERT INTO comentarios (apartamento_id, user_id, user_name, rating, comentario) VALUES (?, ?, ?, ?, ?)");
 
     foreach ($comentarios as $c) {
         $nombre_apt = $c[0];
-        $rating = $c[1];
-        $texto = $c[2];
+        $user_name = $c[1];
+        $rating = $c[2];
+        $texto = $c[3];
         $apt_id = $apt_map[$nombre_apt] ?? null;
         if (!$apt_id) continue;
-        $user_name = $nombres[array_rand($nombres)];
         $insert_comment->bind_param("iisds", $apt_id, $demo_user['id'], $user_name, $rating, $texto);
         $insert_comment->execute();
         $mensajes[] = "Comentario de {$user_name} en '{$nombre_apt}'";
